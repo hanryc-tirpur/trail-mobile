@@ -7,6 +7,7 @@ import useColorScheme from '../external/pongo/hooks/useColorScheme'
 import useStore from '../external/pongo/state/useStore'
 
 import LoginScreen from '../external/pongo/screens/Login'
+import RecordActivity from './RecordActivity'
 
 export default function HomeScreen() {
   const { loading, setLoading, ship: self, shipUrl, authCookie, loadStore, needLogin, setNeedLogin, setShip, addShip } = useStore()
@@ -22,9 +23,10 @@ export default function HomeScreen() {
             <LoginScreen />
           </SafeAreaProvider>
         ) : (<>
-          <Text>Home Screen</Text>
-          
-          <StatusBar style="auto" />
+          <SafeAreaProvider style={{ backgroundColor, height: '100%', width: '100%' }}>
+            <StatusBar translucent style={colorScheme === 'dark' ? 'light' : 'dark'} />
+            <RecordActivity /> 
+          </SafeAreaProvider>
         </>)
       }
     </View>
