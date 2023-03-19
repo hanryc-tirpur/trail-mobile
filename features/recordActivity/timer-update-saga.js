@@ -1,7 +1,7 @@
 import { fork, take, call, cancel, put } from 'redux-saga/effects'
 import { eventChannel, } from 'redux-saga'
 
-import { updateElapsedTime } from '../reducers/activity'
+import { timerTick } from './activitySlice'
 
 
 function segmentTimer(activityMilliseconds = 0) {
@@ -23,8 +23,7 @@ export function* segmentTimeSaga(activityMilliseconds = 0) {
   try {    
     while (true) {
       total = yield take(chan)
-      // console.log(`activityMilliseconds: ${total}`)
-      yield put(updateElapsedTime({ total }))
+      yield put(timerTick())
     }
   } finally {
     console.log(`Segment ended after ${total / 1000} seconds.`)
@@ -32,10 +31,32 @@ export function* segmentTimeSaga(activityMilliseconds = 0) {
 }
 
 export default function* saga() {
-  while(yield take('timer/start-segment-timer')) {
+  while(yield take(START_TIMER)) {
     const segmentTimer = yield fork(segmentTimeSaga)
 
-    yield take('timer/stop-segment-timer')
+    yield take(STOP_TIMER)
     yield cancel(segmentTimer)
+  }
+}
+
+
+// export const TIMER_TICK = 'timer/tick'
+// export function timerTick() {
+//   return {
+//     type: TIMER_TICK,
+//   }
+// }
+
+const START_TIMER = 'timer/start-timer'
+export function startTimer() {
+  return {
+    type: START_TIMER,
+  }
+}
+
+const STOP_TIMER = 'timer/stop-timer'
+export function stopTimer() {
+  return {
+    type: STOP_TIMER,
   }
 }

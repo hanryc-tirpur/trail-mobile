@@ -7,7 +7,7 @@ import useColorScheme from '../external/pongo/hooks/useColorScheme'
 import useStore from '../external/pongo/state/useStore'
 
 import LoginScreen from '../external/pongo/screens/Login'
-import RecordActivity from './RecordActivity'
+import RecordActivity from '../features/recordActivity/RecordActivity2'
 
 export default function HomeScreen() {
   const { loading, setLoading, ship: self, shipUrl, authCookie, loadStore, needLogin, setNeedLogin, setShip, addShip } = useStore()

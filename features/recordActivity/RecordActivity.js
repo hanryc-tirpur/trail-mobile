@@ -3,11 +3,21 @@ import { StatusBar } from 'expo-status-bar'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import MapView, { Polyline } from 'react-native-maps'
 import { useForegroundPermissions } from 'expo-location'
-import { connect, useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 
-import { startActivitySegment, stopActivitySegment, } from '../reducers/activity'
+import { startActivitySegment, stopActivitySegment, } from './activity'
+import { finishActivity, startActivity } from './activitySlice'
+import { startLocationTracking, stopLocationTracking, } from './location-update-saga'
+import { startTimer, stopTimer, } from './timer-update-saga'
 
-export function RecordExercise({ activity, }) {
+export function RecordExercise() {
+  const [ status, requestPermission ] = useForegroundPermissions()
+  const dispatch = useDispatch()
+  const { activity, location: { currentLocation, } } = useSelector(s => ({
+    activity: s.activity,
+    newActivity: s.newActivity,
+    location: s.location,
+  }))
   const { 
     activeSegment,
     completedSegments, 
@@ -16,8 +26,6 @@ export function RecordExercise({ activity, }) {
     totalDistanceTraveled,
     totalElapsedTime,
   } = activity
-  const [ status, requestPermission ] = useForegroundPermissions()
-  const dispatch = useDispatch()
 
   const rawSeconds = totalElapsedTime.toFixed(1)
   const minutes = Math.floor(rawSeconds / 60)
@@ -28,26 +36,28 @@ export function RecordExercise({ activity, }) {
   // console.log(isTracking)
   // alert(JSON.stringify(status))
 
-  let openImagePickerAsync = async () => {    
+  const startActivityTracking = async () => {    
     dispatch(startActivitySegment())
-    dispatch({
-      type: 'location/start-track-position'
-    })
-    dispatch({
-      type: 'timer/start-segment-timer'
-    })
+    dispatch(startLocationTracking())
+    dispatch(startTimer())
+    dispatch(startActivity({
+      startTime: Date.now(),
+      initialLocation: currentLocation,
+    }))
   }
 
-  const stopLocationTracking = async () => {
-    dispatch(stopActivitySegment())
-    dispatch({
-      type: 'location/stop-track-position'
-    })
-    dispatch({
-      type: 'timer/stop-segment-timer'
-    })
+  const finishActivityTracking = async () => {
+    dispatch(finishActivity({
+      endTime: Date.now(),
+      finalLocation: currentLocation,
+    }))
+    dispatch(stopTimer())
+    dispatch(stopLocationTracking())
   }
 
+  const pauseActivityTracking = async () => {
+    console.log('Pausing...')
+  }
 
   useEffect(() => {
     const g = async () => {
@@ -66,28 +76,38 @@ export function RecordExercise({ activity, }) {
         <MapView
           region={region}
           style={styles.map}
+          followsUserLocation={true}
+          showsUserLocation={true}
         >
           {completedSegments.segments.map(({ path }, i) => (
             <Polyline
               key={i}
               coordinates={path}
-              strokeWidth={5}
+              strokeWidth={3}
             />
           ))}
-          <Polyline coordinates={activeSegment?.path} strokeWidth={5} />
+          <Polyline coordinates={activeSegment?.path} strokeWidth={3} />
         </MapView>
 
         <View style={styles.controlsContainer}>
         { isTracking ? (
+          <>
+            <TouchableOpacity
+              onPress={pauseActivityTracking}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>Pause</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={finishActivityTracking}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>Finish</Text>
+            </TouchableOpacity>
+            </>
+          ) : (
           <TouchableOpacity
-            onPress={stopLocationTracking}
-            style={styles.button}
-          >
-            <Text style={styles.buttonText}>Stop</Text>
-          </TouchableOpacity>)
-          : (
-          <TouchableOpacity
-            onPress={openImagePickerAsync}
+            onPress={startActivityTracking}
             style={styles.button}
           >
             <Text style={styles.buttonText}>Start</Text>
@@ -104,9 +124,6 @@ export function RecordExercise({ activity, }) {
   )
 }
 
-export default connect(s => ({
-  activity: s.activity,
-}))(RecordExercise)
 
 const styles = StyleSheet.create({
   container: {
