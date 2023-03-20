@@ -3,7 +3,9 @@ import { eventChannel, } from 'redux-saga'
 import { watchPositionAsync } from 'expo-location'
 import { Accuracy } from 'expo-location'
 
+import { updateLocation as updateActivityLocation } from './activitySlice'
 import { updateLocation } from './locationSlice'
+
 
 function startWatchingPosition() {
   return eventChannel(emitter => {
@@ -32,8 +34,9 @@ export function* trackPositionSaga() {
   try {    
     while (true) {
       const position = yield take(chan)
-      console.log(`New position ${JSON.stringify(position)}`)
+      // console.log(`New position ${JSON.stringify(position)}`)
       yield put(updateLocation({ location: position }))
+      yield put(updateActivityLocation({ location: position }))
     }
   } finally {
     if(yield cancelled()) {

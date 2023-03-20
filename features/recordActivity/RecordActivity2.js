@@ -8,14 +8,16 @@ import { useDispatch, useSelector } from 'react-redux'
 import { finishActivity, pauseActivity, resumeActivity, startActivity } from './activitySlice'
 import { startLocationTracking, stopLocationTracking, } from './location-update-saga'
 import { startTimer, stopTimer, } from './timer-update-saga'
+import activity from './activity'
 
 
 export default function RecordActivity() {
   const dispatch = useDispatch()
-  const { activity: { elapsedTime, isPaused, isStarted, }, location: { currentLocation }, } = useSelector(s => ({
+  const { activity, location: { currentLocation }, } = useSelector(s => ({
     activity: s.activity,
     location: s.location,
   }))
+  const { completedSegments, currentSegment, elapsedTime, isComplete, isPaused, isStarted, totalDistance, } = activity
 
   const rawSeconds = elapsedTime.toFixed(1) / 1000
   const minutes = Math.floor(rawSeconds / 60)
@@ -24,6 +26,15 @@ export default function RecordActivity() {
   useEffect(() => {
     dispatch(startLocationTracking())
   }, [])
+
+  const finishActivityTracking = () => {
+    dispatch(finishActivity({
+      finishTime: Date.now(),
+      finishLocation: currentLocation,
+    }))
+    dispatch(stopTimer())
+    dispatch(stopLocationTracking())
+  }
 
   const pauseActivityTracking = () => {
     dispatch(pauseActivity({
@@ -51,9 +62,17 @@ export default function RecordActivity() {
     <View style={styles.container}>
       <MapView
         style={styles.map}
-        followsUserLocation={true}
-        showsUserLocation={true}
+        followsUserLocation={!isComplete}
+        showsUserLocation={!isComplete}
       >
+        {completedSegments.map((segment, i) => (
+          <Polyline
+            key={i}
+            coordinates={segment.locationEntries}
+            strokeWidth={3}
+          />
+        ))}
+        {currentSegment && <Polyline coordinates={currentSegment.locationEntries} strokeWidth={3} />}
       </MapView>
 
       <View style={styles.controlsContainer}>
@@ -66,25 +85,32 @@ export default function RecordActivity() {
             <Text style={styles.buttonText}>Start</Text>
           </TouchableOpacity>
         ) : isPaused 
-          ? (
+          ? (<>
             <TouchableOpacity
               onPress={resumeActivityTracking}
               style={styles.button}
             >
               <Text style={styles.buttonText}>Resume</Text>
             </TouchableOpacity>
-          ) : (
+            <TouchableOpacity
+              onPress={finishActivityTracking}
+              style={styles.button}
+            >
+              <Text style={styles.buttonText}>Finish</Text>
+            </TouchableOpacity>
+          </>) : (<>
             <TouchableOpacity
               onPress={pauseActivityTracking}
               style={styles.button}
             >
               <Text style={styles.buttonText}>Pause</Text>
             </TouchableOpacity>
-          )
+          </>)
       }
       </View>
 
       <Text>Elapsed Time: {`${minutes}:${seconds.toFixed(1)}`}</Text>
+      <Text>Total Distance: {totalDistance.toFixed(2)} km</Text>
     </View>
   </>)
 }
