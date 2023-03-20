@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 
 const initialState = {
+  activityTime: 0,
   completedSegments: [],
   currentSegment: null,
   elapsedTime: 0,
@@ -21,14 +22,6 @@ export const activitySlice = createSlice({
 
       state.isComplete = true
       state.isPaused = false
-      state.completedSegments.push({
-        ... state.currentSegment,
-        locationEntries: [
-          ... state.currentSegment.locationEntries,
-          finishLocation.coords,
-        ],
-        endTime: finishTime,
-      })
     },
     pauseActivity: (state, action) => {
       const { pauseTime, pauseLocation, } = action.payload
@@ -42,6 +35,7 @@ export const activitySlice = createSlice({
         ],
         endTime: pauseTime,
       })
+      state.currentSegment = null
     },
     resumeActivity: (state, action) => {
       const { startTime, initialLocation, } = action.payload
@@ -67,10 +61,16 @@ export const activitySlice = createSlice({
       }
     },
     timerTick: (state) => {
-      state.elapsedTime = Date.now() - state.startTime
+      const tickTime = Date.now()
+      state.elapsedTime = tickTime - state.startTime
+
+      const currentSegTime = !state.currentSegment ? 0 : tickTime - state.currentSegment.startTime
+      state.activityTime = state.completedSegments.reduce((sum, seg) => {
+        return sum + (seg.endTime - seg.startTime)
+      }, currentSegTime)
     },
     updateLocation: (state, { payload }) => {
-      if(!state.isStarted || state.isPaused) {
+      if(!state.isStarted || state.isPaused || state.isComplete) {
         return state
       }
 

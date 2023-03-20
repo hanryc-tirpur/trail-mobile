@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { finishActivity, pauseActivity, resumeActivity, startActivity } from './activitySlice'
 import { startLocationTracking, stopLocationTracking, } from './location-update-saga'
 import { startTimer, stopTimer, } from './timer-update-saga'
-import activity from './activity'
 
 
 export default function RecordActivity() {
@@ -17,11 +16,16 @@ export default function RecordActivity() {
     activity: s.activity,
     location: s.location,
   }))
-  const { completedSegments, currentSegment, elapsedTime, isComplete, isPaused, isStarted, totalDistance, } = activity
-
-  const rawSeconds = elapsedTime.toFixed(1) / 1000
-  const minutes = Math.floor(rawSeconds / 60)
-  const seconds = rawSeconds % 60
+  const {
+    activityTime,
+    completedSegments,
+    currentSegment,
+    elapsedTime,
+    isComplete,
+    isPaused,
+    isStarted,
+    totalDistance,
+  } = activity
 
   useEffect(() => {
     dispatch(startLocationTracking())
@@ -109,7 +113,8 @@ export default function RecordActivity() {
       }
       </View>
 
-      <Text>Elapsed Time: {`${minutes}:${seconds.toFixed(1)}`}</Text>
+      <Text>Elapsed Time: {formatTimespan(elapsedTime)}</Text>
+      <Text>Activity Time: {formatTimespan(activityTime)}</Text>
       <Text>Total Distance: {totalDistance.toFixed(2)} km</Text>
     </View>
   </>)
@@ -148,4 +153,25 @@ const styles = StyleSheet.create({
     resizeMode: "contain"
   },
 })
+
+
+function formatTimespan(timespanMs) {
+  const msPerHour = 60 * 60 * 1000
+  const msPerMin = 60 * 1000
+  const msPerSec = 1000
+  const hours = Math.floor(timespanMs / msPerHour)
+  timespanMs -= hours * msPerHour
+  const minutes = Math.floor(timespanMs / msPerMin)
+  timespanMs -= minutes * msPerMin
+  const seconds = Math.floor(timespanMs / msPerSec)
+  timespanMs -= seconds * msPerSec
+  const msDigit = Math.floor(timespanMs / 100)
+
+  return `${padZeroes(minutes)}:${padZeroes(seconds)}.${msDigit}`
+}
+
+function padZeroes(num) {
+  const numStr = num.toString()
+  return numStr.length === 1 ? `0${numStr}` : numStr
+}
 
