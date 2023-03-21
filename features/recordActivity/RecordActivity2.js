@@ -24,6 +24,7 @@ export default function RecordActivity() {
     isComplete,
     isPaused,
     isStarted,
+    startTime,
     totalDistance,
   } = activity
 
@@ -80,6 +81,47 @@ export default function RecordActivity() {
       </MapView>
 
       <View style={styles.controlsContainer}>
+        <View style={{ flexDirection:"row", width: '100%', }}>
+          <View style={{ flexGrow: 1 }}>
+            <Text style={styles.fixedNumbers}>{formatTimespan(elapsedTime)}</Text>
+          </View>
+          <View style={{ flexGrow: 1 }}>
+            <Text style={styles.fixedNumbers}>{`${totalDistance.toFixed(2)} km`}</Text>
+          </View>
+          <View style={{ flexGrow: 1 }}>
+            <Text style={styles.fixedNumbers}>{formatTimespan(activityTime)}</Text>
+          </View>
+        </View>
+      { currentSegment && (
+        <View style={{ flexDirection:"row", width: '100%', fontVariant: ["tabular-nums"] }}>
+          <View style={{ flexGrow: 1 }}>
+            <Text style={styles.fixedNumbers}>{formatTimespan(currentSegment.startTime - startTime)}</Text>
+          </View>
+          <View style={{ flexGrow: 1 }}>
+            <Text style={styles.fixedNumbers}>{`${currentSegment.distance.toFixed(2)} km`}</Text>
+          </View>
+          <View style={{ flexGrow: 1 }}>
+            <Text style={styles.fixedNumbers}>{formatTimespan(Date.now() - currentSegment.startTime)}</Text>
+          </View>
+        </View>
+      )}
+      { [... completedSegments].reverse().map((seg, i) => {
+        return (
+          <View style={{ flexDirection:"row", width: '100%', fontVariant: ["tabular-nums"] }} key={i}>
+            <View style={{ flexGrow: 1 }}>
+              <Text style={styles.fixedNumbers}>{formatTimespan(seg.startTime - startTime)}</Text>
+            </View>
+            <View style={{ flexGrow: 1 }}>
+              <Text style={styles.fixedNumbers}>{`${seg.distance.toFixed(2)} km`}</Text>
+            </View>
+            <View style={{ flexGrow: 1 }}>
+              <Text style={styles.fixedNumbers}>{formatTimespan(seg.endTime - seg.startTime)}</Text>
+            </View>
+          </View>
+        )
+      })}
+      </View>
+      <View style={styles.controlsContainer}>
       { !isStarted
         ? (
           <TouchableOpacity
@@ -112,10 +154,6 @@ export default function RecordActivity() {
           </>)
       }
       </View>
-
-      <Text>Elapsed Time: {formatTimespan(elapsedTime)}</Text>
-      <Text>Activity Time: {formatTimespan(activityTime)}</Text>
-      <Text>Total Distance: {totalDistance.toFixed(2)} km</Text>
     </View>
   </>)
 }
@@ -132,6 +170,9 @@ const styles = StyleSheet.create({
   controlsContainer: {
     flex: 0,
     height: 250,
+  },
+  fixedNumbers: {
+    fontVariant: ['tabular-nums'] 
   },
   button: {
     backgroundColor: "blue",
