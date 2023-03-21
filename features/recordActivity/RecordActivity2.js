@@ -5,8 +5,9 @@ import MapView, { Polyline } from 'react-native-maps'
 import { useForegroundPermissions } from 'expo-location'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { finishActivity, pauseActivity, resumeActivity, startActivity } from './activitySlice'
+import { pauseActivity, resumeActivity, startActivity } from './activitySlice'
 import { startLocationTracking, stopLocationTracking, } from './location-update-saga'
+import { finishActivitySaga } from './save-activity-saga'
 import { startTimer, stopTimer, } from './timer-update-saga'
 
 
@@ -33,10 +34,7 @@ export default function RecordActivity() {
   }, [])
 
   const finishActivityTracking = () => {
-    dispatch(finishActivity({
-      finishTime: Date.now(),
-      finishLocation: currentLocation,
-    }))
+    dispatch(finishActivitySaga())
     dispatch(stopTimer())
     dispatch(stopLocationTracking())
   }

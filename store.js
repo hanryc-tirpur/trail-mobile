@@ -5,6 +5,7 @@ import { activitySlice } from './features/recordActivity/activitySlice'
 import { locationSlice } from './features/recordActivity/locationSlice'
 import locationUpdateSaga from './features/recordActivity/location-update-saga'
 import timerUpdateSaga from './features/recordActivity/timer-update-saga'
+import saveActivitySaga from './features/recordActivity/save-activity-saga'
 
 const sagaMiddleware = createSagaMiddleware()
 
@@ -19,3 +20,4 @@ export const store = configureStore({
 
 sagaMiddleware.run(locationUpdateSaga)
 sagaMiddleware.run(timerUpdateSaga)
+sagaMiddleware.run(saveActivitySaga)

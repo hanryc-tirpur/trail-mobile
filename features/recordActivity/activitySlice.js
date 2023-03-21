@@ -17,9 +17,7 @@ export const activitySlice = createSlice({
   name: 'activity',
   initialState,
   reducers: {
-    finishActivity: (state, action) => {
-      const { finishTime, finishLocation, } = action.payload
-
+    finishActivity: (state) => {
       state.isComplete = true
       state.isPaused = false
     },
