@@ -4,7 +4,6 @@ import { finishActivity } from './activitySlice'
 import { saveActivity } from '../../data/storage'
 
 export default function* watchForSaveActivity() {
-  // How do I get the activity payload from take?
   yield takeEvery(FINISH_ACTIVITY_SAGA, saveActivitySaga)
 }
 
