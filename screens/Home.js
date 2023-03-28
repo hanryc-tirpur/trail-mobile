@@ -65,7 +65,7 @@ function LatestActivity({ completedSegments, region, }) {
       <Text>Latest Activity</Text>
       <MapView
         style={styles.map}
-        initialRegion={region}
+        region={region}
       >
         {completedSegments.map((segment, i) => (
           <Polyline
