@@ -17,46 +17,64 @@ export default function HomeScreen() {
   const { color, backgroundColor } = useColors()
   const colorScheme = useColorScheme()
 
-  const { completedSegments } = activities[activities.length - 1]
-  const allCoords = completedSegments.reduce((all, seg) => {
-    return [
-      ... all,
-      ... seg.locationEntries.map(l => [l.latitude, l.longitude])
-    ]
-  }, [])
-  const encoded = polyline.encode(allCoords)
-  const geo = polyline.toGeoJSON(encoded)
-  const box = bbox(geo)
-  const cen = center(geo)
-  const region = {
-    latitude: cen.geometry.coordinates[1],
-    longitude: cen.geometry.coordinates[0],
-    latitudeDelta: Math.abs(box[1] - box[3]) * 2,
-    longitudeDelta: Math.abs(box[0] - box[2]) * 2,
+  const hasActivities = (activities || []).length !== 0
+
+  function getMapProps() {
+    const { completedSegments } = activities[activities.length - 1]
+    const allCoords = completedSegments.reduce((all, seg) => {
+      return [
+        ... all,
+        ... seg.locationEntries.map(l => [l.latitude, l.longitude])
+      ]
+    }, [])
+    const encoded = polyline.encode(allCoords)
+    const geo = polyline.toGeoJSON(encoded)
+    const box = bbox(geo)
+    const cen = center(geo)
+    const region = {
+      latitude: cen.geometry.coordinates[1],
+      longitude: cen.geometry.coordinates[0],
+      latitudeDelta: Math.abs(box[1] - box[3]) * 2,
+      longitudeDelta: Math.abs(box[0] - box[2]) * 2,
+    }
+    return { completedSegments, region }
   }
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <SafeAreaProvider style={{ backgroundColor, height: '100%', width: '100%' }}>
-        <View style={{ flexGrow: 0, width: '100%', }}>
-          <Text>Latest Activity</Text>
-          <MapView
-            style={styles.map}
-            initialRegion={region}
-          >
-            {completedSegments.map((segment, i) => (
-              <Polyline
-                key={i}
-                coordinates={segment.locationEntries}
-                strokeWidth={3}
-              />
-            ))}
-          </MapView>
-        </View>
+        { hasActivities
+          ? (<LatestActivity {... getMapProps()} />)
+          : (
+            <View style={{ flexGrow: 0, width: '100%', }}>
+              <Text>Record an activity!</Text>
+            </View>
+          )
+        }
         <View style={{ flexGrow: 1, width: '100%', }}>
           <Text>Details</Text>
         </View>
       </SafeAreaProvider>
+    </View>
+  )
+}
+
+function LatestActivity({ completedSegments, region, }) {
+  return (
+    <View style={{ flexGrow: 0, width: '100%', }}>
+      <Text>Latest Activity</Text>
+      <MapView
+        style={styles.map}
+        initialRegion={region}
+      >
+        {completedSegments.map((segment, i) => (
+          <Polyline
+            key={i}
+            coordinates={segment.locationEntries}
+            strokeWidth={3}
+          />
+        ))}
+      </MapView>
     </View>
   )
 }

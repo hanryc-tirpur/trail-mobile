@@ -1,0 +1,38 @@
+import React, { useEffect, } from 'react'
+import { StyleSheet, Text, View } from 'react-native'
+import { useForegroundPermissions } from 'expo-location'
+
+import RecordActivity from './RecordActivity'
+
+export default function RecordActivityScreen() {
+  const [status, requestPermission] = useForegroundPermissions()
+
+  useEffect(() => {
+    if(!status?.granted) {
+      requestPermission()
+    }
+  }, [])
+
+  return status?.granted
+    ? (<RecordActivity />)
+    : (<>
+      <View style={styles.container}>
+        <Text>
+          To record your activity, you must allow location permissions.
+          To avoid having this check done every time, please select the "Allow While Using App"
+          option.
+        </Text>
+      </View>
+    </>)
+}
+
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    flex: 1,
+    justifyContent: 'center',
+    padding: 10,
+  },
+})

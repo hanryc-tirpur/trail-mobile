@@ -1,7 +1,6 @@
 import React, { useEffect, } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import MapView, { Polyline } from 'react-native-maps'
-import { useForegroundPermissions } from 'expo-location'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { pauseActivity, resumeActivity, startActivity } from './activitySlice'
@@ -12,21 +11,23 @@ import { startTimer, stopTimer, } from './timer-update-saga'
 
 export default function RecordActivity() {
   const dispatch = useDispatch()
-  const { activity, location: { currentLocation }, } = useSelector(s => ({
+  const { activity: activitySlice, location: { currentLocation }, } = useSelector(s => ({
     activity: s.activity,
     location: s.location,
   }))
   const {
-    activityTime,
-    completedSegments,
-    currentSegment,
-    elapsedTime,
     isComplete,
     isPaused,
     isStarted,
-    startTime,
-    totalDistance,
-  } = activity
+    activity: {
+      completedSegments,
+      currentSegment,
+      startTime,
+      timeActive,
+      timeElapsed,
+      totalDistance,
+    }
+  } = activitySlice
 
   useEffect(() => {
     dispatch(startLocationTracking())
@@ -80,13 +81,13 @@ export default function RecordActivity() {
       <View style={styles.controlsContainer}>
         <View style={{ flexDirection:"row", width: '100%', }}>
           <View style={{ flexGrow: 1 }}>
-            <Text style={styles.fixedNumbers}>{formatTimespan(elapsedTime)}</Text>
+            <Text style={styles.fixedNumbers}>{formatTimespan(timeElapsed)}</Text>
           </View>
           <View style={{ flexGrow: 1 }}>
             <Text style={styles.fixedNumbers}>{`${totalDistance.toFixed(2)} km`}</Text>
           </View>
           <View style={{ flexGrow: 1 }}>
-            <Text style={styles.fixedNumbers}>{formatTimespan(activityTime)}</Text>
+            <Text style={styles.fixedNumbers}>{formatTimespan(timeActive)}</Text>
           </View>
         </View>
       { currentSegment && (

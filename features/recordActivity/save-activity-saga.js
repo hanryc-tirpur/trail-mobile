@@ -10,7 +10,7 @@ export default function* watchForSaveActivity() {
 function* saveActivitySaga() {
   yield put(finishActivity())
   const activityState = yield select(s => s.activity)
-  yield call(saveActivity, activityState)
+  yield call(saveActivity, activityState.activity)
 }
 
 export const FINISH_ACTIVITY_SAGA = 'save-activity-saga/finish-activity'

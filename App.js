@@ -16,7 +16,7 @@ import useColors from './external/pongo/hooks/useColors'
 import useColorScheme from './external/pongo/hooks/useColorScheme'
 
 import HomeScreen from './screens/Home'
-import RecordActivityScreen from './features/recordActivity/RecordActivity'
+import RecordActivityScreen from './features/recordActivity/RecordActivityScreen'
 import SettingsNavigator from './features/settings/SettingsNavigator'
 
 SplashScreen.preventAutoHideAsync()
