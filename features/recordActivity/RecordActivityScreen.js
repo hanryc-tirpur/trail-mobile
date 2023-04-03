@@ -1,19 +1,32 @@
 import React, { useEffect, } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { useForegroundPermissions } from 'expo-location'
+import { useBackgroundPermissions, useForegroundPermissions } from 'expo-location'
+
+import { initTracking } from './locationChannel'
 
 import RecordActivity from './RecordActivity'
 
+
 export default function RecordActivityScreen() {
-  const [status, requestPermission] = useForegroundPermissions()
+  const [foregroundStatus, requestForegroundPermission] = useForegroundPermissions()
+  const [backgroundStatus, requestBackgroundPermission] = useBackgroundPermissions()
 
   useEffect(() => {
-    if(!status?.granted) {
-      requestPermission()
+    async function getLocationPermissions() {
+      if(!foregroundStatus?.granted) {
+        await requestForegroundPermission()
+      }
+      if(foregroundStatus?.granted && !backgroundStatus?.granted) {
+        await requestBackgroundPermission()
+      }
+      if(foregroundStatus?.granted && backgroundStatus?.granted) {
+        await initTracking()
+      }
     }
-  }, [])
+    getLocationPermissions()
+  }, [foregroundStatus?.status, backgroundStatus?.status])
 
-  return status?.granted
+  return foregroundStatus?.granted && backgroundStatus?.granted
     ? (<RecordActivity />)
     : (<>
       <View style={styles.container}>

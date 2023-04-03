@@ -1,15 +1,13 @@
 import React, { useCallback, useEffect, useState, } from 'react'
-import * as SplashScreen from 'expo-splash-screen'
-import { StatusBar } from 'expo-status-bar'
-import { Provider, } from 'react-redux'
+import { StyleSheet } from 'react-native'
+import { SafeAreaProvider } from "react-native-safe-area-context"
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { StyleSheet, Text, View } from 'react-native'
-import { SafeAreaProvider } from "react-native-safe-area-context"
-
+import { Provider, } from 'react-redux'
+import * as SplashScreen from 'expo-splash-screen'
 import Ionicons from '@expo/vector-icons/Ionicons'
+import { StatusBar } from 'expo-status-bar'
 
-const Tab = createBottomTabNavigator()
 import createStore from './store'
 
 import useColors from './external/pongo/hooks/useColors'
@@ -19,6 +17,8 @@ import HomeScreen from './screens/Home'
 import RecordActivityScreen from './features/recordActivity/RecordActivityScreen'
 import SettingsNavigator from './features/settings/SettingsNavigator'
 
+
+const Tab = createBottomTabNavigator()
 SplashScreen.preventAutoHideAsync()
 
 
@@ -55,10 +55,10 @@ export default function App() {
   }
 
   return (
-    <Provider store={store}>
-      <SafeAreaProvider style={{ backgroundColor, height: '100%', width: '100%' }} onLayout={onLayoutRootView}>
-        <NavigationContainer>
-          <Tab.Navigator
+    <NavigationContainer>
+      <Provider store={store}>
+        <SafeAreaProvider style={{ backgroundColor, height: '100%', width: '100%' }} onLayout={onLayoutRootView}>
+        <Tab.Navigator
             screenOptions={({ route }) => ({
               tabBarIcon: ({ focused, color, size }) => {
                 let iconName;
@@ -80,15 +80,15 @@ export default function App() {
               tabBarInactiveTintColor: 'gray',
             })}
           >
-            <Tab.Screen name="Home" component={HomeScreen} />
-            <Tab.Screen name="Record" component={RecordActivityScreen} />
-            <Tab.Screen name="SettingsNavigator" component={SettingsNavigator} options={{ headerShown: false, }} title="Settings" />
-          </Tab.Navigator>
-        </NavigationContainer>
-        <StatusBar translucent style={colorScheme === 'dark' ? 'light' : 'dark'} />
-      </SafeAreaProvider>
-    </Provider>
-  );
+              <Tab.Screen name="Home" component={HomeScreen} />
+              <Tab.Screen name="Record" component={RecordActivityScreen} />
+              <Tab.Screen name="SettingsNavigator" component={SettingsNavigator} options={{ headerShown: false, }} title="Settings" />
+            </Tab.Navigator>
+          <StatusBar translucent style={colorScheme === 'dark' ? 'light' : 'dark'} />
+        </SafeAreaProvider>
+      </Provider>
+    </NavigationContainer>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -98,4 +98,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-});
+})
