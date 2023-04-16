@@ -4,57 +4,31 @@ import { SafeAreaProvider } from "react-native-safe-area-context"
 import { NavigationContainer } from '@react-navigation/native'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Provider, } from 'react-redux'
-import * as SplashScreen from 'expo-splash-screen'
+
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { StatusBar } from 'expo-status-bar'
 
-import createStore from './store'
+
 
 import useColors from './external/pongo/hooks/useColors'
 import useColorScheme from './external/pongo/hooks/useColorScheme'
+import useNetInfo from './hooks/useNetInfo'
 
 import HomeScreen from './screens/Home'
 import RecordActivityScreen from './features/recordActivity/RecordActivityScreen'
 import SettingsNavigator from './features/settings/SettingsNavigator'
+import useSplashScreen from './hooks/useSplashScreen'
 
 
 const Tab = createBottomTabNavigator()
-SplashScreen.preventAutoHideAsync()
 
 
 export default function App() {
+  const { appIsReady, onLayoutRootView, store } = useSplashScreen()
   const { color, backgroundColor } = useColors()
   const colorScheme = useColorScheme()
-  const [ appIsReady, setAppIsReady ] = useState(false)
-  const [ store, setStore ] = useState(null) 
 
-  useEffect(() => {
-    async function prepare() {
-      try {
-        const createdStore = await createStore()
-        setStore(createdStore)
-      } catch (e) {
-        console.warn(e)
-      } finally {
-        // Tell the application to render
-        setAppIsReady(true)
-      }
-    }
-
-    prepare();
-  }, []);
-
-  const onLayoutRootView = useCallback(async () => {
-    if (appIsReady) {
-      await SplashScreen.hideAsync();
-    }
-  }, [appIsReady]);
-
-  if (!appIsReady) {
-    return null;
-  }
-
-  return (
+  return appIsReady && (
     <NavigationContainer>
       <Provider store={store}>
         <SafeAreaProvider style={{ backgroundColor, height: '100%', width: '100%' }} onLayout={onLayoutRootView}>
