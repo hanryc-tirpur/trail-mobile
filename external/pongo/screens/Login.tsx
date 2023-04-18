@@ -13,6 +13,7 @@ import CreateAccountScreen from "./CreateAccount";
 import useColors from "../hooks/useColors";
 import useKeyboard from "../hooks/useKeyboard";
 import useDimensions from "../hooks/useDimensions";
+import { useUrbitActions } from "../../../hooks/useUrbitStore";
 
 const SHIP_COOKIE_REGEX = /(~)[a-z\-]+?(\=)/;
 const getShipFromCookie = (cookie: string) => cookie.match(SHIP_COOKIE_REGEX)![0].slice(0, -1);
@@ -33,6 +34,9 @@ export default function LoginScreen({ inviteUrl }: { inviteUrl?: string }) {
   const [showPassword, setShowPassword] = useState(false);
   const [formLoading, setFormLoading] = useState(false);
   const [loginType, setLoginType] = useState<LoginType>(null);
+
+  const { connect: connectUrbit } = useUrbitActions()
+  console.log('why is this undefined?', connectUrbit)
 
   useEffect(() => {
     if (inviteUrl) {
@@ -113,10 +117,12 @@ export default function LoginScreen({ inviteUrl }: { inviteUrl?: string }) {
           if (!authCookieHeader) {
             setLoginProblem('Please enter a valid access key.');
           } else {
+            connectUrbit({ ship, shipUrl, authCookie: authCookieHeader })
             addShip({ ship, shipUrl, authCookie: authCookieHeader })
           }
         })
         .catch((err) => {
+          console.error(err)
           console.warn('ERROR LOGGING IN')
         })
     }

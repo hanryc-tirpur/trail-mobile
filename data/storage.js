@@ -2,9 +2,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 const activitiesKey = 'activities'
 
+
 export async function loadActivities() {
   const storeData = await migrateStore()
   return storeData.unsavedActivities
+}
+
+export async function loadUrbit() {
+  const fromDb = await AsyncStorage.getItem('store')
+  const urbit = fromDb === null ? [] : JSON.parse(fromDb) 
+  console.log(urbit)
 }
 
 async function migrateStore() {

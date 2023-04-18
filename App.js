@@ -8,16 +8,14 @@ import { Provider, } from 'react-redux'
 import Ionicons from '@expo/vector-icons/Ionicons'
 import { StatusBar } from 'expo-status-bar'
 
-
-
 import useColors from './external/pongo/hooks/useColors'
 import useColorScheme from './external/pongo/hooks/useColorScheme'
-import useNetInfo from './hooks/useNetInfo'
 
 import HomeScreen from './screens/Home'
 import RecordActivityScreen from './features/recordActivity/RecordActivityScreen'
 import SettingsNavigator from './features/settings/SettingsNavigator'
 import useSplashScreen from './hooks/useSplashScreen'
+import { useUrbitApi } from './hooks/useUrbitStore'
 
 
 const Tab = createBottomTabNavigator()
@@ -27,6 +25,9 @@ export default function App() {
   const { appIsReady, onLayoutRootView, store } = useSplashScreen()
   const { color, backgroundColor } = useColors()
   const colorScheme = useColorScheme()
+  const { isConnected, } = useUrbitApi()
+
+  console.log(isConnected)
 
   return appIsReady && (
     <NavigationContainer>

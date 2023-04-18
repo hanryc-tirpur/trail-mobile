@@ -8,13 +8,14 @@ import locationUpdateSaga from './features/recordActivity/location-update-saga'
 import timerUpdateSaga from './features/recordActivity/timer-update-saga'
 import saveActivitySaga from './features/recordActivity/save-activity-saga'
 
-import { loadActivities } from './data/storage'
+import { loadActivities, loadUrbit } from './data/storage'
 
 
 const sagaMiddleware = createSagaMiddleware()
 
 export default async function createStore() {
   const activities = await loadActivities()
+  
   const store = configureStore({
     reducer: {
       [activitySlice.name]: activitySlice.reducer,
