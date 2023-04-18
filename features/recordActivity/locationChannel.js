@@ -16,16 +16,19 @@ TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
     console.log(error.message)
     return
   }
+
   if (data && emitLocation) {
     const { locations } = data
-    locations.forEach(loc => emitLocation(loc))
+    locations
+      .filter(loc => Boolean(loc))
+      .forEach(loc => emitLocation(loc))
   }
 })
 
 export async function initTracking() {
   await startLocationUpdatesAsync(LOCATION_TASK_NAME, locationArgs)
   const subscription = await watchPositionAsync(locationArgs, location => {
-    emitLocation && emitLocation(location)
+    location && emitLocation && emitLocation(location)
   })
   cleanUpForeground = () => subscription.remove()
 }

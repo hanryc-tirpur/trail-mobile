@@ -33,7 +33,6 @@ const urbitStore: StateCreator<UrbitStore> = (set, get) => ({
   actions: {
     connect: connection => {
       const api = configureApi(connection.ship, connection.shipUrl)
-      console.log(api)
       set({
         isConnected: true,
         connection,
