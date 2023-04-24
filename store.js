@@ -9,6 +9,7 @@ import timerUpdateSaga from './features/recordActivity/timer-update-saga'
 import saveActivitySaga from './features/recordActivity/save-activity-saga'
 
 import { loadActivities, loadUrbit } from './data/storage'
+import { watchPokeRequest, watchScryRequest } from './data/urbitApiSaga'
 
 
 const sagaMiddleware = createSagaMiddleware()
@@ -34,6 +35,8 @@ export default async function createStore() {
   sagaMiddleware.run(locationUpdateSaga)
   sagaMiddleware.run(timerUpdateSaga)
   sagaMiddleware.run(saveActivitySaga)
+  sagaMiddleware.run(watchScryRequest)
+  sagaMiddleware.run(watchPokeRequest)
 
   return store
 }

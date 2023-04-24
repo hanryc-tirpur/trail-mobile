@@ -8,6 +8,11 @@ export async function loadActivities() {
   return storeData.unsavedActivities
 }
 
+export async function loadAllActivities() {
+  const storeData = await migrateStore()
+  return storeData
+}
+
 export async function loadUrbit() {
   const fromDb = await AsyncStorage.getItem('store')
   const urbit = fromDb === null ? [] : JSON.parse(fromDb) 
@@ -31,7 +36,15 @@ async function migrateStore() {
     await save(updatedState)
     return updatedState
   } else if(currentState.version === 1) {
-    return currentState
+    return {
+      ... currentState,
+      unsavedActivities: currentState.unsavedActivities.map(a => {
+        if(!a.name) {
+          return { ...a, name: 'An unnamed activity' }
+        }
+        return a
+      })
+    }
   }
 }
 
@@ -48,11 +61,14 @@ function defaultState() {
 }
 
 export async function saveActivity(activity) {
-  const fromDb = await AsyncStorage.getItem('activities')
-  const activities = fromDb === null ? [] : JSON.parse(fromDb)
-  const toSave = [
-    ... activities,
-    activity,
-  ]
+  const fromDb = await AsyncStorage.getItem(activitiesKey)
+  const state = JSON.parse(fromDb)
+  const toSave = {
+    ... state,
+    unsavedActivities: [
+      ... state.unsavedActivities,
+      activity,
+    ],
+  }
   await save(toSave)
 }

@@ -4,6 +4,7 @@ import { configureApi } from '@uqbar/react-native-api/configureApi'
 import { StateCreator, create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 import { shallow, } from 'zustand/shallow'
+import { initializeApi } from '../data/urbitApiSaga'
 
 const URBIT_STORE_KEY = 'trail/urbit'
 
@@ -33,6 +34,7 @@ const urbitStore: StateCreator<UrbitStore> = (set, get) => ({
   actions: {
     connect: connection => {
       const api = configureApi(connection.ship, connection.shipUrl)
+      initializeApi(connection)
       set({
         isConnected: true,
         connection,
@@ -51,10 +53,16 @@ const useUrbitStore = create(persist(urbitStore, {
     return { ...rest }
   },
   onRehydrateStorage: state => {
-    if(state.isConnected) {
-      console.log(state)
+    return (state, error) => {
+      if(!state) {
+        return
+      }
+
+      if(state.isConnected) {
+        initializeApi(state.connection)
+      }
+      console.log('rehydrated', state)
     }
-    console.log('rehydrated', state)
   }
 }))
 
@@ -62,4 +70,8 @@ export const useUrbitActions = () => useUrbitStore(state => state.actions)
 export const useUrbitApi = () => useUrbitStore(state => ({
   isConnected: state.isConnected,
   api: state.api,
+}), shallow)
+export const useUrbitConnection = () => useUrbitStore(state => ({
+  isConnected: state.isConnected,
+  connection: state.connection,
 }), shallow)
