@@ -1,0 +1,1083 @@
+{
+  "version": 1,
+  "unsavedActivities": [
+    {
+      "completedSegments": [
+        {
+          "distance": 0.05713651645833037,
+          "locationEntries": [
+            {
+              "speed": 8.4,
+              "heading": 1.26,
+              "longitude": -122.023573,
+              "accuracy": 5,
+              "latitude": 37.33501818,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 8.51,
+              "heading": 2.67,
+              "longitude": -122.02356672,
+              "accuracy": 5,
+              "latitude": 37.33509587,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 8.57,
+              "heading": 4.8,
+              "longitude": -122.02355701,
+              "accuracy": 5,
+              "latitude": 37.33517532,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 9.03,
+              "heading": 6.2,
+              "longitude": -122.02354482,
+              "accuracy": 5,
+              "latitude": 37.33525952,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 9.3,
+              "heading": 8.46,
+              "longitude": -122.02352918,
+              "accuracy": 5,
+              "latitude": 37.33534626,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 9.51,
+              "heading": 10.07,
+              "longitude": -122.02351114,
+              "accuracy": 5,
+              "latitude": 37.33543519,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 9.87,
+              "heading": 11.88,
+              "longitude": -122.02348929,
+              "accuracy": 5,
+              "latitude": 37.3355267,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 9.87,
+              "heading": 11.88,
+              "longitude": -122.02348929,
+              "accuracy": 5,
+              "latitude": 37.3355267,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            }
+          ],
+          "startTime": 1680369428633,
+          "endTime": 1680369435253
+        }
+      ],
+      "currentSegment": null,
+      "timeActive": 6620,
+      "timeElapsed": 7655,
+      "startTime": 1680369428633,
+      "totalDistance": 0.05713651645833037,
+      "name": "An unnamed activity"
+    },
+    {
+      "completedSegments": [
+        {
+          "distance": 0.37982189936183036,
+          "locationEntries": [
+            {
+              "speed": 5.44,
+              "heading": 1.85,
+              "longitude": -122.02356581,
+              "accuracy": 10,
+              "latitude": 37.33422051,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 5.59,
+              "heading": 0.64,
+              "longitude": -122.02356597,
+              "accuracy": 5,
+              "latitude": 37.33427304,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 5.66,
+              "heading": 359.99,
+              "longitude": -122.02356744,
+              "accuracy": 10,
+              "latitude": 37.33432674,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 5.6,
+              "heading": 1.64,
+              "longitude": -122.02356723,
+              "accuracy": 10,
+              "latitude": 37.33437998,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 5.83,
+              "heading": 0.69,
+              "longitude": -122.02356829,
+              "accuracy": 10,
+              "latitude": 37.33443608,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 7.39,
+              "heading": 358.12,
+              "longitude": -122.02357289,
+              "accuracy": 10,
+              "latitude": 37.33450444,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 6.74,
+              "heading": 358.97,
+              "longitude": -122.02357538,
+              "accuracy": 10,
+              "latitude": 37.33456541,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 6.74,
+              "heading": 358.12,
+              "longitude": -122.02357759,
+              "accuracy": 10,
+              "latitude": 37.33462556,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 6.66,
+              "heading": 359.88,
+              "longitude": -122.02357768,
+              "accuracy": 5,
+              "latitude": 37.33468587,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 6.77,
+              "heading": 359.66,
+              "longitude": -122.02357773,
+              "accuracy": 5,
+              "latitude": 37.3347473,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 6.78,
+              "heading": 359.67,
+              "longitude": -122.02357759,
+              "accuracy": 5,
+              "latitude": 37.33480909,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 6.95,
+              "heading": 0.14,
+              "longitude": -122.02357723,
+              "accuracy": 5,
+              "latitude": 37.33487242,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 7.9,
+              "heading": 0.85,
+              "longitude": -122.02357637,
+              "accuracy": 5,
+              "latitude": 37.33494273,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 8.4,
+              "heading": 1.26,
+              "longitude": -122.023573,
+              "accuracy": 5,
+              "latitude": 37.33501818,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 8.51,
+              "heading": 2.67,
+              "longitude": -122.02356672,
+              "accuracy": 5,
+              "latitude": 37.33509587,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 8.57,
+              "heading": 4.8,
+              "longitude": -122.02355701,
+              "accuracy": 5,
+              "latitude": 37.33517532,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 9.03,
+              "heading": 6.2,
+              "longitude": -122.02354482,
+              "accuracy": 5,
+              "latitude": 37.33525952,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 9.3,
+              "heading": 8.46,
+              "longitude": -122.02352918,
+              "accuracy": 5,
+              "latitude": 37.33534626,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 9.51,
+              "heading": 10.07,
+              "longitude": -122.02351114,
+              "accuracy": 5,
+              "latitude": 37.33543519,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 9.87,
+              "heading": 11.88,
+              "longitude": -122.02348929,
+              "accuracy": 5,
+              "latitude": 37.3355267,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 9.83,
+              "heading": 14.91,
+              "longitude": -122.02346115,
+              "accuracy": 10,
+              "latitude": 37.33561536,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 10.17,
+              "heading": 16.21,
+              "longitude": -122.02342902,
+              "accuracy": 10,
+              "latitude": 37.33570507,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 10.53,
+              "heading": 17.26,
+              "longitude": -122.02339327,
+              "accuracy": 10,
+              "latitude": 37.33579644,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 10.81,
+              "heading": 16.44,
+              "longitude": -122.02335769,
+              "accuracy": 10,
+              "latitude": 37.33589113,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 10.63,
+              "heading": 15.97,
+              "longitude": -122.02332492,
+              "accuracy": 10,
+              "latitude": 37.33598464,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 10.81,
+              "heading": 14.25,
+              "longitude": -122.02329488,
+              "accuracy": 10,
+              "latitude": 37.33607993,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 11.13,
+              "heading": 11.67,
+              "longitude": -122.02327117,
+              "accuracy": 5,
+              "latitude": 37.33617936,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 11.29,
+              "heading": 9.47,
+              "longitude": -122.02325364,
+              "accuracy": 10,
+              "latitude": 37.33628116,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 11.34,
+              "heading": 7.17,
+              "longitude": -122.02324119,
+              "accuracy": 10,
+              "latitude": 37.3363838,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 11.34,
+              "heading": 7.17,
+              "longitude": -122.02324119,
+              "accuracy": 10,
+              "latitude": 37.3363838,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 10.81,
+              "heading": 5.12,
+              "longitude": -122.02323437,
+              "accuracy": 10,
+              "latitude": 37.33648188,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 10.66,
+              "heading": 2.92,
+              "longitude": -122.02323232,
+              "accuracy": 10,
+              "latitude": 37.33657807,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 10.58,
+              "heading": 2.12,
+              "longitude": -122.02322978,
+              "accuracy": 10,
+              "latitude": 37.33667376,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 10.2,
+              "heading": 1.36,
+              "longitude": -122.02322973,
+              "accuracy": 10,
+              "latitude": 37.33676579,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 10.28,
+              "heading": 0.58,
+              "longitude": -122.02322852,
+              "accuracy": 10,
+              "latitude": 37.33685783,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 10.02,
+              "heading": 359.93,
+              "longitude": -122.02323042,
+              "accuracy": 10,
+              "latitude": 37.33694779,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 9.12,
+              "heading": 0.7,
+              "longitude": -122.02323048,
+              "accuracy": 10,
+              "latitude": 37.33703041,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 8.38,
+              "heading": 1.64,
+              "longitude": -122.02323008,
+              "accuracy": 10,
+              "latitude": 37.33710766,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 7.85,
+              "heading": 0.78,
+              "longitude": -122.02322984,
+              "accuracy": 10,
+              "latitude": 37.33718079,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 6.53,
+              "heading": 1.76,
+              "longitude": -122.02322781,
+              "accuracy": 30,
+              "latitude": 37.33724128,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 6.16,
+              "heading": 2.28,
+              "longitude": -122.02322484,
+              "accuracy": 10,
+              "latitude": 37.33729864,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 6.12,
+              "heading": 0.4,
+              "longitude": -122.02322366,
+              "accuracy": 10,
+              "latitude": 37.33735438,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 2.94,
+              "heading": 0.05,
+              "longitude": -122.02322145,
+              "accuracy": 10,
+              "latitude": 37.33742182,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 0,
+              "heading": 358.28,
+              "longitude": -122.02322184,
+              "accuracy": 5,
+              "latitude": 37.33743371,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 2.24,
+              "heading": 17.58,
+              "longitude": -122.02320724,
+              "accuracy": 5,
+              "latitude": 37.3374913,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 2.74,
+              "heading": 12.61,
+              "longitude": -122.02319813,
+              "accuracy": 5,
+              "latitude": 37.33753908,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 3.82,
+              "heading": 356.75,
+              "longitude": -122.02320004,
+              "accuracy": 5,
+              "latitude": 37.33760111,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 3.82,
+              "heading": 356.75,
+              "longitude": -122.02320004,
+              "accuracy": 5,
+              "latitude": 37.33760111,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            }
+          ],
+          "startTime": 1680477987948,
+          "endTime": 1680478069769
+        }
+      ],
+      "currentSegment": null,
+      "timeActive": 81821,
+      "timeElapsed": 82657,
+      "startTime": 1680477987948,
+      "totalDistance": 0.37982189936183036,
+      "name": "An unnamed activity"
+    },
+    {
+      "completedSegments": [
+        {
+          "distance": 0.1986644636552478,
+          "locationEntries": [
+            {
+              "speed": 3.91,
+              "heading": 85.33,
+              "longitude": -122.03052106,
+              "accuracy": 5,
+              "latitude": 37.33164811,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "altitude": 0,
+              "altitudeAccuracy": -1,
+              "latitude": 37.33165234,
+              "accuracy": 5,
+              "longitude": -122.03047684,
+              "heading": 86.98,
+              "speed": 3.9
+            },
+            {
+              "speed": 3.69,
+              "heading": 88.48,
+              "longitude": -122.03043593,
+              "accuracy": 5,
+              "latitude": 37.33165582,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "altitude": 0,
+              "altitudeAccuracy": -1,
+              "latitude": 37.33165833,
+              "accuracy": 10,
+              "longitude": -122.03039645,
+              "heading": 90.48,
+              "speed": 3.64
+            },
+            {
+              "speed": 3.41,
+              "heading": 92.93,
+              "longitude": -122.03035956,
+              "accuracy": 10,
+              "latitude": 37.3316585,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "altitude": 0,
+              "altitudeAccuracy": -1,
+              "latitude": 37.33165577,
+              "accuracy": 10,
+              "longitude": -122.03033803,
+              "heading": 109.38,
+              "speed": 2.03
+            },
+            {
+              "altitude": 0,
+              "altitudeAccuracy": -1,
+              "latitude": 37.33165577,
+              "accuracy": 10,
+              "longitude": -122.03033803,
+              "heading": 109.38,
+              "speed": 2.03
+            },
+            {
+              "altitude": 0,
+              "altitudeAccuracy": -1,
+              "latitude": 37.33165577,
+              "accuracy": 10,
+              "longitude": -122.03033803,
+              "heading": 109.38,
+              "speed": 2.03
+            },
+            {
+              "altitude": 0,
+              "altitudeAccuracy": -1,
+              "latitude": 37.33165577,
+              "accuracy": 10,
+              "longitude": -122.03033803,
+              "heading": 109.38,
+              "speed": 2.03
+            },
+            {
+              "speed": 0,
+              "heading": -1,
+              "longitude": -122.03024001,
+              "accuracy": 30,
+              "latitude": 37.33170303,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "altitude": 0,
+              "altitudeAccuracy": -1,
+              "latitude": 37.33170303,
+              "accuracy": 30,
+              "longitude": -122.03024001,
+              "heading": -1,
+              "speed": 0
+            },
+            {
+              "altitude": 0,
+              "altitudeAccuracy": -1,
+              "latitude": 37.33165083,
+              "accuracy": 50,
+              "longitude": -122.03029752,
+              "heading": -1,
+              "speed": 1.28
+            },
+            {
+              "speed": 1.28,
+              "heading": -1,
+              "longitude": -122.03029752,
+              "accuracy": 50,
+              "latitude": 37.33165083,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "altitude": 0,
+              "altitudeAccuracy": -1,
+              "latitude": 37.3316149,
+              "accuracy": 50,
+              "longitude": -122.03036489,
+              "heading": -1,
+              "speed": 1.57
+            },
+            {
+              "speed": 1.57,
+              "heading": -1,
+              "longitude": -122.03036489,
+              "accuracy": 50,
+              "latitude": 37.3316149,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "altitude": 0,
+              "altitudeAccuracy": -1,
+              "latitude": 37.3316045,
+              "accuracy": 30,
+              "longitude": -122.03041139,
+              "heading": -1,
+              "speed": 2.8
+            },
+            {
+              "speed": 2.8,
+              "heading": -1,
+              "longitude": -122.03041139,
+              "accuracy": 30,
+              "latitude": 37.3316045,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "altitude": 0,
+              "altitudeAccuracy": -1,
+              "latitude": 37.33159275,
+              "accuracy": 30,
+              "longitude": -122.03051033,
+              "heading": 254.74,
+              "speed": 3.58
+            },
+            {
+              "speed": 3.58,
+              "heading": 254.74,
+              "longitude": -122.03051033,
+              "accuracy": 30,
+              "latitude": 37.33159275,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "altitude": 0,
+              "altitudeAccuracy": -1,
+              "latitude": 37.33156519,
+              "accuracy": 30,
+              "longitude": -122.03057969,
+              "heading": 221.5,
+              "speed": 3.13
+            },
+            {
+              "speed": 3.13,
+              "heading": 221.5,
+              "longitude": -122.03057969,
+              "accuracy": 30,
+              "latitude": 37.33156519,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "altitude": 0,
+              "altitudeAccuracy": -1,
+              "latitude": 37.33155419,
+              "accuracy": 30,
+              "longitude": -122.03068145,
+              "heading": 241.62,
+              "speed": 4.14
+            },
+            {
+              "speed": 4.14,
+              "heading": 241.62,
+              "longitude": -122.03068145,
+              "accuracy": 30,
+              "latitude": 37.33155419,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "altitude": 0,
+              "altitudeAccuracy": -1,
+              "latitude": 37.33149482,
+              "accuracy": 30,
+              "longitude": -122.03074488,
+              "heading": 181.28,
+              "speed": 5.86
+            },
+            {
+              "speed": 5.86,
+              "heading": 181.28,
+              "longitude": -122.03074488,
+              "accuracy": 30,
+              "latitude": 37.33149482,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "altitude": 0,
+              "altitudeAccuracy": -1,
+              "latitude": 37.33144466,
+              "accuracy": 30,
+              "longitude": -122.03075535,
+              "heading": 180.98,
+              "speed": 6.01
+            },
+            {
+              "speed": 6.01,
+              "heading": 180.98,
+              "longitude": -122.03075535,
+              "accuracy": 30,
+              "latitude": 37.33144466,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "altitude": 0,
+              "altitudeAccuracy": -1,
+              "latitude": 37.33138305,
+              "accuracy": 30,
+              "longitude": -122.03075743,
+              "heading": 176.48,
+              "speed": 7.07
+            },
+            {
+              "speed": 7.07,
+              "heading": 176.48,
+              "longitude": -122.03075743,
+              "accuracy": 30,
+              "latitude": 37.33138305,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "altitude": 0,
+              "altitudeAccuracy": -1,
+              "latitude": 37.33131185,
+              "accuracy": 30,
+              "longitude": -122.03075659,
+              "heading": 176.86,
+              "speed": 7.87
+            },
+            {
+              "speed": 7.87,
+              "heading": 176.86,
+              "longitude": -122.03075659,
+              "accuracy": 30,
+              "latitude": 37.33131185,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "altitude": 0,
+              "altitudeAccuracy": -1,
+              "latitude": 37.33123666,
+              "accuracy": 30,
+              "longitude": -122.03076342,
+              "heading": 179.76,
+              "speed": 8.17
+            },
+            {
+              "speed": 8.17,
+              "heading": 179.76,
+              "longitude": -122.03076342,
+              "accuracy": 30,
+              "latitude": 37.33123666,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "altitude": 0,
+              "altitudeAccuracy": -1,
+              "latitude": 37.33115792,
+              "accuracy": 30,
+              "longitude": -122.03076853,
+              "heading": 178.34,
+              "speed": 8.33
+            },
+            {
+              "speed": 8.33,
+              "heading": 178.34,
+              "longitude": -122.03076853,
+              "accuracy": 30,
+              "latitude": 37.33115792,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "altitude": 0,
+              "altitudeAccuracy": -1,
+              "latitude": 37.3310798,
+              "accuracy": 30,
+              "longitude": -122.0307725,
+              "heading": 177.87,
+              "speed": 8.2
+            },
+            {
+              "speed": 8.2,
+              "heading": 177.87,
+              "longitude": -122.0307725,
+              "accuracy": 30,
+              "latitude": 37.3310798,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "altitude": 0,
+              "altitudeAccuracy": -1,
+              "latitude": 37.33100231,
+              "accuracy": 30,
+              "longitude": -122.03077622,
+              "heading": 178.34,
+              "speed": 8.2
+            },
+            {
+              "speed": 8.2,
+              "heading": 178.34,
+              "longitude": -122.03077622,
+              "accuracy": 30,
+              "latitude": 37.33100231,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "altitude": 0,
+              "altitudeAccuracy": -1,
+              "latitude": 37.33092521,
+              "accuracy": 10,
+              "longitude": -122.03077056,
+              "heading": 173.92,
+              "speed": 8.34
+            },
+            {
+              "speed": 8.34,
+              "heading": 173.92,
+              "longitude": -122.03077056,
+              "accuracy": 10,
+              "latitude": 37.33092521,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "altitude": 0,
+              "altitudeAccuracy": -1,
+              "latitude": 37.33085898,
+              "accuracy": 10,
+              "longitude": -122.03075862,
+              "heading": 170.25,
+              "speed": 7.23
+            },
+            {
+              "speed": 7.23,
+              "heading": 170.25,
+              "longitude": -122.03075862,
+              "accuracy": 10,
+              "latitude": 37.33085898,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "altitude": 0,
+              "altitudeAccuracy": -1,
+              "latitude": 37.330798,
+              "accuracy": 10,
+              "longitude": -122.03072881,
+              "heading": 157.66,
+              "speed": 7.11
+            },
+            {
+              "speed": 7.11,
+              "heading": 157.66,
+              "longitude": -122.03072881,
+              "accuracy": 10,
+              "latitude": 37.330798,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "altitude": 0,
+              "altitudeAccuracy": -1,
+              "latitude": 37.33074557,
+              "accuracy": 10,
+              "longitude": -122.0306985,
+              "heading": 155.33,
+              "speed": 6.29
+            },
+            {
+              "speed": 6.29,
+              "heading": 155.33,
+              "longitude": -122.0306985,
+              "accuracy": 10,
+              "latitude": 37.33074557,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "altitude": 0,
+              "altitudeAccuracy": -1,
+              "latitude": 37.33069642,
+              "accuracy": 10,
+              "longitude": -122.03066881,
+              "heading": 156.32,
+              "speed": 5.94
+            },
+            {
+              "speed": 5.94,
+              "heading": 156.32,
+              "longitude": -122.03066881,
+              "accuracy": 10,
+              "latitude": 37.33069642,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "altitude": 0,
+              "altitudeAccuracy": -1,
+              "latitude": 37.33063636,
+              "accuracy": 10,
+              "longitude": -122.03063618,
+              "heading": 158.84,
+              "speed": 2.27
+            },
+            {
+              "speed": 2.27,
+              "heading": 158.84,
+              "longitude": -122.03063618,
+              "accuracy": 10,
+              "latitude": 37.33063636,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "altitude": 0,
+              "altitudeAccuracy": -1,
+              "latitude": 37.33058184,
+              "accuracy": 10,
+              "longitude": -122.03060705,
+              "heading": 160.58,
+              "speed": 2.83
+            },
+            {
+              "speed": 2.83,
+              "heading": 160.58,
+              "longitude": -122.03060705,
+              "accuracy": 10,
+              "latitude": 37.33058184,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "altitude": 0,
+              "altitudeAccuracy": -1,
+              "latitude": 37.33051217,
+              "accuracy": 10,
+              "longitude": -122.03054075,
+              "heading": 131.1,
+              "speed": 4.58
+            },
+            {
+              "speed": 4.58,
+              "heading": 131.1,
+              "longitude": -122.03054075,
+              "accuracy": 10,
+              "latitude": 37.33051217,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "altitude": 0,
+              "altitudeAccuracy": -1,
+              "latitude": 37.33048815,
+              "accuracy": 10,
+              "longitude": -122.03049154,
+              "heading": 118.56,
+              "speed": 4.98
+            },
+            {
+              "speed": 4.98,
+              "heading": 118.56,
+              "longitude": -122.03049154,
+              "accuracy": 10,
+              "latitude": 37.33048815,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            },
+            {
+              "speed": 4.98,
+              "heading": 118.56,
+              "longitude": -122.03049154,
+              "accuracy": 10,
+              "latitude": 37.33048815,
+              "altitudeAccuracy": -1,
+              "altitude": 0
+            }
+          ],
+          "startTime": 1682313059896,
+          "endTime": 1682313097619
+        }
+      ],
+      "currentSegment": null,
+      "timeActive": 37723,
+      "timeElapsed": 38900,
+      "startTime": 1682313059896,
+      "totalDistance": 0.1986644636552478,
+      "name": "An unnamed activity"
+    }
+  ],
+  "savedActivities": []
+}
