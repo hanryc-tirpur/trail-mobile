@@ -6,7 +6,8 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "open-data": "open $(xcrun simctl get_app_container booted com.hanryctirpur.trailmobile data)"
   },
   "dependencies": {
     "@babel/preset-typescript": "^7.21.0",
@@ -44,7 +45,8 @@
     "react-redux": "^8.0.5",
     "redux-saga": "^1.2.2",
     "typescript": "^4.9.4",
-    "zustand": "^4.3.7"
+    "zustand": "^4.3.7",
+    "expo-file-system": "~15.2.2"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

@@ -1,7 +1,9 @@
 import { useCallback, useEffect, useState } from 'react'
+import * as FileSystem from 'expo-file-system'
 import * as SplashScreen from 'expo-splash-screen'
 
 import createStore from '../store'
+import { loadAllActivities } from '../data/storage'
 
 
 SplashScreen.preventAutoHideAsync()
@@ -16,6 +18,9 @@ export default function useSplashScreen() {
       try {
         const createdStore = await createStore()
         setStore(createdStore)
+        const allActivities = await loadAllActivities()
+        console.log('loaded all activities', allActivities)
+        FileSystem.writeAsStringAsync(`${FileSystem.documentDirectory}allActivities.json`, JSON.stringify(allActivities))
       } catch (e) {
         console.warn(e)
       } finally {

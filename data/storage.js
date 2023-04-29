@@ -5,11 +5,13 @@ const activitiesKey = 'activities'
 
 export async function loadActivities() {
   const storeData = await migrateStore()
+  console.log('storage:loadActivities', storeData)
   return storeData.unsavedActivities
 }
 
 export async function loadAllActivities() {
   const storeData = await migrateStore()
+  console.log('storage:loadAllActivities', storeData)
   return storeData
 }
 

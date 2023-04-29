@@ -8,17 +8,19 @@ export function initializeApi(connection) {
   api = configureApi(connection.ship, connection.shipUrl)
 }
 
-export async function poke({ app, path }) {
+export async function poke({ app, mark, json }) {
+  console.log(JSON.stringify(json))
   const res = await api.poke({
-    app: 'trail',
-    mark: 'trail-action'
+    app,
+    mark,
+    json,
   })
   console.log(res)
 }
 
 export async function scry({ app, path }) {
   const res = await api.scry({ app, path, })
-  console.log(res)
+  return res
 }
 
 export function* performPokeRequest({ payload }) {

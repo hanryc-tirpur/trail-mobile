@@ -9,6 +9,9 @@ import useColors from '../external/pongo/hooks/useColors'
 import useColorScheme from '../external/pongo/hooks/useColorScheme'
 import useStore from '../external/pongo/state/useStore'
 import { useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { useUrbitConnection } from '../hooks/useUrbitStore'
+import { scry } from '../data/urbitApiSaga'
 
 
 export default function HomeScreen() {
@@ -16,6 +19,7 @@ export default function HomeScreen() {
   const { activities } = useSelector(s => s.activities)
   const { color, backgroundColor } = useColors()
   const colorScheme = useColorScheme()
+  const { isConnected } = useUrbitConnection()
 
   const hasActivities = (activities || []).length !== 0
 
@@ -39,6 +43,19 @@ export default function HomeScreen() {
     }
     return { completedSegments, region }
   }
+
+  useEffect(() => {
+    async function getIt() {
+      const acts = await scry({
+        app: 'trail',
+        path: '/activities/all',
+      })
+      console.log('from server', acts)
+    }
+    if(isConnected) {
+      getIt()
+    }
+  }, [isConnected])
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
