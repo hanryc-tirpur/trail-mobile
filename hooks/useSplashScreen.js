@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react'
 import * as FileSystem from 'expo-file-system'
+import * as Sharing from 'expo-sharing'
 import * as SplashScreen from 'expo-splash-screen'
 
 import createStore from '../store'
@@ -19,8 +20,14 @@ export default function useSplashScreen() {
         const createdStore = await createStore()
         setStore(createdStore)
         const allActivities = await loadAllActivities()
-        console.log('loaded all activities', allActivities)
-        FileSystem.writeAsStringAsync(`${FileSystem.documentDirectory}allActivities.json`, JSON.stringify(allActivities))
+        const activityFile = `${FileSystem.documentDirectory}/allActivities.json`
+        await FileSystem.writeAsStringAsync(activityFile, JSON.stringify(allActivities))
+        
+        const canShare = await Sharing.isAvailableAsync()
+        console.log(`I can share: ${canShare}`)
+        if(canShare) {
+          await Sharing.shareAsync(activityFile)
+        }
       } catch (e) {
         console.warn(e)
       } finally {

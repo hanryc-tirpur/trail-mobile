@@ -132,7 +132,12 @@ export const activitySlice = createSlice({
       const { coords, timestamp } = location
       const previousCoords = getLast(activity.currentSegment.locationEntries)
 
-      activity.currentSegment.distance += computeDistance(previousCoords, coords)
+      const distance = computeDistance(previousCoords, coords)
+      if(isNaN(distance)) {
+        return state
+      }
+
+      activity.currentSegment.distance += distance
       activity.currentSegment.locationEntries.push(coords)
 
       activity.totalDistance = activity.completedSegments.reduce((sum, seg) => {
@@ -155,7 +160,7 @@ export const {
 export default activitySlice.reducer
 
 
-function computeDistance({ latitude: prevLat, longitude: prevLong }: LocationEntry, { latitude: lat, longitude: long }: LocationEntry) {
+export function computeDistance({ latitude: prevLat, longitude: prevLong }: LocationEntry, { latitude: lat, longitude: long }: LocationEntry) {
   const prevLatInRad = toRad(prevLat)
   const prevLongInRad = toRad(prevLong)
   const latInRad = toRad(lat)
