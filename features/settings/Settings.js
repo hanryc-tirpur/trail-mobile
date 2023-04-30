@@ -2,6 +2,7 @@ import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useUrbitApi, useUrbitConnection } from '../../hooks/useUrbitStore'
 import useAllActivities from '../../hooks/useAllActivities'
 import useSyncUnsavedActivities from '../../data/useSyncUnsavedActivities'
+import useExportActivities from '../../hooks/useExportActivityData'
 
 export default function SettingsListScreen({ navigation }) {
   const { isConnected, } = useUrbitApi()
@@ -31,6 +32,7 @@ const ConnectToUrbit = () => {
 const ConnectedUrbit = () => {
   const [isActivityStateLoaded, activityState] = useAllActivities()
   const syncUnsavedActivities = useSyncUnsavedActivities()
+  const exportActivities = useExportActivities()
   const { connection } = useUrbitConnection()
 
   return ( 
@@ -47,6 +49,18 @@ const ConnectedUrbit = () => {
             onPress={syncUnsavedActivities}
           >
             <Text>Save Activities</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+      { isActivityStateLoaded && (
+        <View>
+          <Text>
+            Export your activities
+          </Text>
+          <TouchableOpacity
+            onPress={exportActivities}
+          >
+            <Text>Export</Text>
           </TouchableOpacity>
         </View>
       )}
