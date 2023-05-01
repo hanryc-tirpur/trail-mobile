@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import polyline from '@mapbox/polyline'
 
-import { pokeRequest } from './urbitApiSaga'
+import { pokeRequest, saveActivity } from './urbitApiSaga'
 import useAllActivities from '../hooks/useAllActivities'
 
 
@@ -45,13 +45,5 @@ export default function useSyncUnsavedActivities() {
 
   const act = activityData.unsavedActivities[0]
 
-  return () => dispatch(pokeRequest({
-    app: 'trail',
-    mark: 'trail-action',
-    json: {
-      'save-activity': {
-        'tracked': toServerActivity(act),
-      }
-    }
-  }))
+  return () => dispatch(saveActivity(act))
 }

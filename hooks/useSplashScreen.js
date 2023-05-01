@@ -5,7 +5,6 @@ import * as SplashScreen from 'expo-splash-screen'
 import createStore from '../store'
 
 
-
 SplashScreen.preventAutoHideAsync()
 
 
