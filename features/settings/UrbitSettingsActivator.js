@@ -4,7 +4,7 @@ import { Cell, Section, TableView } from 'react-native-tableview-simple'
 import { useUrbitConnection } from '../../hooks/useUrbitStore'
 
 
-const navigateToUrbitSettings = navigation => navigation.navigate('SettingsNavigator', {
+const navigateToUrbitSettings = navigation => navigation.navigate('Settings', {
   screen: 'ConnectYourUrbit'
 })
 

@@ -44,7 +44,7 @@ export default function App() {
                     : 'home-outline';
                 } else if (route.name === 'Record') {
                   iconName = focused ? 'ios-walk-sharp' : 'ios-walk-outline';
-                } else if (route.name === 'SettingsNavigator') {
+                } else if (route.name === 'Settings') {
                   iconName = focused ? 'ios-settings-sharp' : 'ios-settings-outline';
                 }
     
@@ -57,7 +57,7 @@ export default function App() {
           >
               <Tab.Screen name="Home" component={HomeScreen} />
               <Tab.Screen name="Record" component={RecordActivityScreen} />
-              <Tab.Screen name="SettingsNavigator" component={SettingsNavigator} options={{ headerShown: false, }} title="Settings" />
+              <Tab.Screen name="Settings" component={SettingsNavigator} options={{ headerShown: false, }} />
             </Tab.Navigator>
           <StatusBar translucent style={colorScheme === 'dark' ? 'light' : 'dark'} />
         </SafeAreaProvider>

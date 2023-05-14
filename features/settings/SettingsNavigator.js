@@ -11,8 +11,18 @@ const Stack = createNativeStackNavigator()
 export default function SettingsNavigator() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Settings" component={SettingsScreen} />
-      <Stack.Screen name="ConnectYourUrbit" component={LoginScreen} title="Urbit" />
+      <Stack.Screen
+        name="SettingsContent"
+        component={SettingsScreen}
+        title="Settings"
+        options={{ headerTitle: 'Settings' }}
+      />
+      <Stack.Screen
+        name="ConnectYourUrbit"
+        component={LoginScreen}
+        title="Urbit"
+        options={{ headerTitle: 'Urbit' }}
+      />
     </Stack.Navigator>
   )
 }

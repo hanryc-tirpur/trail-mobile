@@ -36,7 +36,6 @@ export default function LoginScreen({ inviteUrl }: { inviteUrl?: string }) {
   const [loginType, setLoginType] = useState<LoginType>(null);
 
   const { connect: connectUrbit } = useUrbitActions()
-  console.log('why is this undefined?', connectUrbit)
 
   useEffect(() => {
     if (inviteUrl) {
