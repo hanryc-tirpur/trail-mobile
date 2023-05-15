@@ -20,7 +20,7 @@
     "@reduxjs/toolkit": "^1.9.3",
     "@turf/bbox": "^6.5.0",
     "@turf/center": "^6.5.0",
-    "@uqbar/react-native-api": "^0.1.0",
+    "@uqbar/react-native-api": "^0.1.4",
     "@urbit/http-api": "^2.3.0",
     "expo": "^48.0.9",
     "expo-barcode-scanner": "^12.3.2",

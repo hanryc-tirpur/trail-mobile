@@ -68,6 +68,8 @@ export const activitySlice = createSlice({
       state.isPaused = false
     },
     pauseActivity: (state, action) => {
+      if(state.isPaused) return state
+      
       const { pauseTime, pauseLocation, } = action.payload
       const { activity } = state
 

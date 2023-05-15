@@ -30,7 +30,7 @@ export default function App() {
   console.log(isConnected)
 
   return appIsReady && (
-    <NavigationContainer>
+    <NavigationContainer style={{ flex: 1 }}>
       <Provider store={store}>
         <SafeAreaProvider style={{ backgroundColor, height: '100%', width: '100%' }} onLayout={onLayoutRootView}>
         <Tab.Navigator
@@ -51,11 +51,13 @@ export default function App() {
                 // You can return any component that you like here!
                 return <Ionicons name={iconName} size={size} color={color} />;
               },
-              tabBarActiveTintColor: 'tomato',
+              tabBarActiveTintColor: '#228b22',
               tabBarInactiveTintColor: 'gray',
             })}
           >
-              <Tab.Screen name="Home" component={HomeScreen} />
+              <Tab.Screen name="Home" component={HomeScreen} screenOptions={{
+                height: '100%',
+              }} />
               <Tab.Screen name="Record" component={RecordActivityScreen} />
               <Tab.Screen name="Settings" component={SettingsNavigator} options={{ headerShown: false, }} />
             </Tab.Navigator>

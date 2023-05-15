@@ -34,6 +34,12 @@ export default function RecordActivity() {
   }, [])
 
   const finishActivityTracking = () => {
+    if(!isPaused) {
+      dispatch(pauseActivity({
+        pauseTime: Date.now(),
+        pauseLocation: currentLocation,
+      }))
+    }
     dispatch(finishActivitySaga())
     dispatch(stopTimer())
     dispatch(stopLocationTracking())
@@ -61,135 +67,203 @@ export default function RecordActivity() {
     }))
   }
 
-  return (<>
-    <View style={styles.container}>
-      <MapView
-        style={styles.map}
-        followsUserLocation={!isComplete}
-        showsUserLocation={!isComplete}
-      >
-        {completedSegments.map((segment, i) => (
-          <Polyline
-            key={i}
-            coordinates={segment.locationEntries}
-            strokeWidth={3}
-          />
-        ))}
-        {currentSegment && <Polyline coordinates={currentSegment.locationEntries} strokeWidth={3} />}
-      </MapView>
+  const now = Date.now()
+  const effectiveSegment = currentSegment || {
+    distance: 0,
+    startTime: now,
+  }
 
-      <View style={styles.controlsContainer}>
-        <View style={{ flexDirection:"row", width: '100%', }}>
-          <View style={{ flexGrow: 1 }}>
-            <Text style={styles.fixedNumbers}>{formatTimespan(timeElapsed)}</Text>
+  return (<View style={styles.screen}>
+    <View style={styles.container}>
+      <View style={styles.mapContainer}>
+        <MapView
+          style={styles.map}
+          followsUserLocation={!isComplete}
+          showsUserLocation={!isComplete}
+        >
+          {completedSegments.map((segment, i) => (
+            <Polyline
+              key={i}
+              coordinates={segment.locationEntries}
+              strokeWidth={3}
+            />
+          ))}
+          {currentSegment && <Polyline coordinates={currentSegment.locationEntries} strokeWidth={3} />}
+        </MapView>
+      </View>
+
+      <View style={styles.progressContainer}>
+        <View style={styles.segmentContainer}>
+          <Text style={styles.sectionHeader}>Segment</Text>
+          <View style={styles.segmentNumbersContainer}>
+            <View style={{ flexGrow: 1 }}>
+              <Text style={styles.totalsLabel}>Distance</Text>
+              <Text style={styles.segmentNumbers}>{`${effectiveSegment.distance.toFixed(2)} km`}</Text>
+            </View>
+            <View style={{ flexGrow: 1 }}>
+              <Text style={styles.totalsLabel}>Active Time</Text>
+              <Text style={styles.segmentNumbers}>{formatTimespan(now - effectiveSegment.startTime)}</Text>
+            </View>
           </View>
+        </View>
+        <View style={styles.totalsContainer}>
           <View style={{ flexGrow: 1 }}>
+            <Text style={styles.totalsLabel}>Total Distance</Text>
             <Text style={styles.fixedNumbers}>{`${totalDistance.toFixed(2)} km`}</Text>
           </View>
           <View style={{ flexGrow: 1 }}>
-            <Text style={styles.fixedNumbers}>{formatTimespan(timeActive)}</Text>
+            <Text style={styles.totalsLabel}>Time Elapsed</Text>
+            <Text style={styles.fixedNumbers}>{formatTimespan(timeElapsed)}</Text>
           </View>
         </View>
-      { currentSegment && (
-        <View style={{ flexDirection:"row", width: '100%', fontVariant: ["tabular-nums"] }}>
-          <View style={{ flexGrow: 1 }}>
-            <Text style={styles.fixedNumbers}>{formatTimespan(currentSegment.startTime - startTime)}</Text>
-          </View>
-          <View style={{ flexGrow: 1 }}>
-            <Text style={styles.fixedNumbers}>{`${currentSegment.distance.toFixed(2)} km`}</Text>
-          </View>
-          <View style={{ flexGrow: 1 }}>
-            <Text style={styles.fixedNumbers}>{formatTimespan(Date.now() - currentSegment.startTime)}</Text>
-          </View>
-        </View>
-      )}
-      { [... completedSegments].reverse().map((seg, i) => {
-        return (
-          <View style={{ flexDirection:"row", width: '100%', fontVariant: ["tabular-nums"] }} key={i}>
-            <View style={{ flexGrow: 1 }}>
-              <Text style={styles.fixedNumbers}>{formatTimespan(seg.startTime - startTime)}</Text>
-            </View>
-            <View style={{ flexGrow: 1 }}>
-              <Text style={styles.fixedNumbers}>{`${seg.distance.toFixed(2)} km`}</Text>
-            </View>
-            <View style={{ flexGrow: 1 }}>
-              <Text style={styles.fixedNumbers}>{formatTimespan(seg.endTime - seg.startTime)}</Text>
-            </View>
-          </View>
-        )
-      })}
       </View>
-      <View style={styles.controlsContainer}>
-      { !isStarted
-        ? (
-          <TouchableOpacity
-            onPress={startActivityTracking}
-            style={styles.button}
-          >
-            <Text style={styles.buttonText}>Start</Text>
-          </TouchableOpacity>
-        ) : isPaused 
-          ? (<>
+    </View>
+    <View style={styles.controlsContainer}>
+    { !isStarted
+      ? (
+        <TouchableOpacity
+          onPress={startActivityTracking}
+          style={styles.button}
+        >
+          <Text style={styles.buttonText}>Start</Text>
+        </TouchableOpacity>
+      ) : (
+        <View style={styles.multiButton}>
+          { isPaused 
+          ? (
             <TouchableOpacity
               onPress={resumeActivityTracking}
-              style={styles.button}
+              style={styles.actionButton}
             >
               <Text style={styles.buttonText}>Resume</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              onPress={finishActivityTracking}
-              style={styles.button}
-            >
-              <Text style={styles.buttonText}>Finish</Text>
-            </TouchableOpacity>
-          </>) : (<>
+          ) : (
             <TouchableOpacity
               onPress={pauseActivityTracking}
-              style={styles.button}
+              style={styles.actionButton}
             >
               <Text style={styles.buttonText}>Pause</Text>
             </TouchableOpacity>
-          </>)
-      }
-      </View>
+          )}
+          <TouchableOpacity
+            onPress={finishActivityTracking}
+            style={styles.secondaryButton}
+          >
+            <Text style={styles.secondaryButtonText}>Finish</Text>
+          </TouchableOpacity>
+        </View>
+      )
+    }
     </View>
-  </>)
+  </View>)
 }
 
 
+const buttonStyle = {
+  borderColor: '#228b22',
+  borderRadius: 20,
+  borderWidth: 2,
+  marginLeft: 10,
+  marginRight: 10,
+  padding: 10,
+}
+const buttonTextStyle = {
+  fontSize: 32,
+  fontWeight: 'bold',
+  textAlign: 'center',
+  width: '100%',
+}
 const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
+  screen: {
     backgroundColor: '#fff',
+    display: 'flex',
     flex: 1,
-    justifyContent: 'center',
-    padding: 10,
+  },
+  container: {
+    flex: 1,
   },
   controlsContainer: {
-    flex: 0,
-    height: 250,
+    marginBottom: 10,
+    width: '100%',
+  },
+  progressContainer: {
+    flex: 2,
+    width: '100%',
+  },
+  totalsContainer: {
+    flexDirection: 'row',
+    fontVariant: ['tabular-nums'],
+    marginBottom: 25,
+    marginLeft: 25,
+    marginRight: 25,
+    width: '100%',
+  },
+  segmentContainer: {
+    flex: 1,
+    marginTop: 10,
+    marginLeft: 10,
+    marginRight: 10,
+    width: '100%',
+  },
+  segmentNumbersContainer: {
+    flex: 1,
+    fontVariant: ['tabular-nums'],
+    marginTop: 25,
+    width: '100%',
+  },
+  segmentNumbers: {
+    fontSize: 48,
+    fontVariant: ['tabular-nums'],
+    fontWeight: 'bold',
   },
   fixedNumbers: {
-    fontVariant: ['tabular-nums'] 
+    fontSize: 28,
+    fontVariant: ['tabular-nums'],
+    fontWeight: 'bold',
   },
   button: {
-    backgroundColor: "blue",
-    padding: 20,
-    borderRadius: 5,
+    ... buttonStyle,
   },
-  buttonText: {
-    fontSize: 20,
+  actionButton: {
+    ... buttonStyle,
+    flex: 7,
+  },
+  secondaryButton: {
+    ... buttonStyle,
+    backgroundColor: "#228b22",
+    flex: 3,
+    marginLeft: 0,
+  },
+  secondaryButtonText: {
+    ... buttonTextStyle,
     color: '#fff',
   },
+  buttonText: {
+    ... buttonTextStyle,
+    color: '#228b22',
+  },
   map: {
-    flexGrow: 1,
-    borderColor: 'red',
+    height: '100%',
     width: '100%',
+  },
+  mapContainer: {
+    flex: 1,
+    width: '100%',
+  },
+  totalsLabel: {
+    fontSize: 24,
   },
   thumbnail: {
     width: 300,
     height: 300,
     resizeMode: "contain"
+  },
+
+  sectionHeader: {
+    fontSize: 32,
+  },
+  multiButton: {
+    flexDirection: 'row',
   },
 })
 
