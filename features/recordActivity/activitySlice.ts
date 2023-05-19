@@ -1,10 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { DistanceUnit } from '../settings/hooks/useDistanceUnit'
 
 interface ActivityState {
   isComplete: boolean,
   isPaused: boolean,
   isStarted: boolean,
 
+  distanceUnit: DistanceUnit,
   activity: ActivityData,
 }
 
@@ -48,6 +50,7 @@ const initialState: ActivityState = {
   isComplete: false,
   isPaused: false,
   isStarted: false,
+  distanceUnit: DistanceUnit.Km,
 
   activity: {
     completedSegments: [],
@@ -67,9 +70,29 @@ export const activitySlice = createSlice({
       state.isComplete = true
       state.isPaused = false
     },
+    changeDistanceUnits: (state, action) => {
+      const { payload: { unit }} = action
+      if(state.distanceUnit === unit) {
+        return state
+      }
+
+      state.distanceUnit = unit
+      const multiplier = unit === DistanceUnit.Km
+        ? 1.609344   // mi to km
+        : 0.6213712  // km to mi
+      state.activity.totalDistance = state.activity.totalDistance * multiplier
+      if(state.activity.currentSegment) {
+        state.activity.currentSegment.distance = state.activity.currentSegment.distance * multiplier
+      }
+      state.activity.completedSegments = state.activity.completedSegments.map(seg => ({
+        ... seg,
+        distance: seg.distance * multiplier,
+      }))
+      console.log(unit, state.activity)
+    },
     pauseActivity: (state, action) => {
       if(state.isPaused) return state
-      
+
       const { pauseTime, pauseLocation, } = action.payload
       const { activity } = state
 
@@ -134,7 +157,7 @@ export const activitySlice = createSlice({
       const { coords, timestamp } = location
       const previousCoords = getLast(activity.currentSegment.locationEntries)
 
-      const distance = computeDistance(previousCoords, coords)
+      const distance = createDistanceComputer(state.distanceUnit)(previousCoords, coords)
       if(isNaN(distance)) {
         return state
       }
@@ -152,6 +175,7 @@ export const activitySlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
   finishActivity,
+  changeDistanceUnits,
   pauseActivity,
   resumeActivity,
   startActivity,
@@ -162,20 +186,24 @@ export const {
 export default activitySlice.reducer
 
 
-export function computeDistance({ latitude: prevLat, longitude: prevLong }: LocationEntry, { latitude: lat, longitude: long }: LocationEntry) {
-  const prevLatInRad = toRad(prevLat)
-  const prevLongInRad = toRad(prevLong)
-  const latInRad = toRad(lat)
-  const longInRad = toRad(long)
+export function createDistanceComputer(unit: DistanceUnit) {
+  return ({ latitude: prevLat, longitude: prevLong }: LocationEntry, { latitude: lat, longitude: long }: LocationEntry) => {
+    const prevLatInRad = toRad(prevLat)
+    const prevLongInRad = toRad(prevLong)
+    const latInRad = toRad(lat)
+    const longInRad = toRad(long)
 
-  return (
-    // In kilometers
-    6377.830272 *
-    Math.acos(
-      Math.sin(prevLatInRad) * Math.sin(latInRad) +
-        Math.cos(prevLatInRad) * Math.cos(latInRad) * Math.cos(longInRad - prevLongInRad),
+    const kmDistance = (
+      // In kilometers
+      6377.830272 *
+      Math.acos(
+        Math.sin(prevLatInRad) * Math.sin(latInRad) +
+          Math.cos(prevLatInRad) * Math.cos(latInRad) * Math.cos(longInRad - prevLongInRad),
+      )
     )
-  )
+    const milesMultiplier = unit === DistanceUnit.Km ? 1.0 : 0.6213712
+    return kmDistance * milesMultiplier
+  }
 }
 
 function toRad(angle: number) {

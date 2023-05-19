@@ -5,11 +5,12 @@ import { useUrbitApi, useUrbitConnection } from '../../hooks/useUrbitStore'
 import useAllActivities from '../../hooks/useAllActivities'
 import useSyncUnsavedActivities from '../../data/useSyncUnsavedActivities'
 import useExportActivities from '../../hooks/useExportActivityData'
+import { UnitSettingsActivator } from './UnitSettings'
 import UrbitSettingsActivator from './UrbitSettingsActivator'
 
 const styles = StyleSheet.create({
   stage: {
-    backgroundColor: '#000', // '#EFEFF4', // Change to #000 to preview Dark Mode/Appereance
+    backgroundColor: '#EFEFF4', // Change to #000 to preview Dark Mode/Appereance
     paddingTop: 20,
     paddingBottom: 20,
   },
@@ -18,25 +19,13 @@ const styles = StyleSheet.create({
 export default function SettingsListScreen({ navigation }) {
   return (
     <ScrollView contentContainerStyle={styles.stage}>
-        <TableView>
-          <Section header="STANDARD" footer="A Footer">
-            <UrbitSettingsActivator navigation={navigation} />
-            <Cell cellStyle="Basic" title="Basic" />
-            <Cell cellStyle="RightDetail" title="RightDetail" detail="Detail" />
-            <Cell cellStyle="LeftDetail" title="LeftDetail" detail="Detail" />
-            <Cell
-              cellStyle="Subtitle"
-              title="Subtitle"
-              detail="No linebreakkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk"
-            />
-            <Cell
-              cellStyle="Basic"
-              title="Pressable w/ accessory"
-              accessory="DisclosureIndicator"
-              onPress={() => console.log('Heyho!')}
-            />
-          </Section>
-          </TableView>
+      <TableView>
+        <UrbitSettingsActivator navigation={navigation} />
+
+        <Section header="APP">
+          <UnitSettingsActivator navigation={navigation} />
+        </Section>
+      </TableView>
     </ScrollView>
   )
 }

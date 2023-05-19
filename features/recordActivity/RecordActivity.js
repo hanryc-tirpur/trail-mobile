@@ -7,10 +7,12 @@ import { pauseActivity, resumeActivity, startActivity } from './activitySlice'
 import { startLocationTracking, stopLocationTracking, } from './location-update-saga'
 import { finishActivitySaga } from './save-activity-saga'
 import { startTimer, stopTimer, } from './timer-update-saga'
+import { useDistanceUnit } from '../settings/hooks/useDistanceUnit'
 
 
 export default function RecordActivity() {
   const dispatch = useDispatch()
+  const [distanceUnit] = useDistanceUnit()
   const { activity: activitySlice, location: { currentLocation }, } = useSelector(s => ({
     activity: s.activity,
     location: s.location,
@@ -98,7 +100,7 @@ export default function RecordActivity() {
           <View style={styles.segmentNumbersContainer}>
             <View style={{ flexGrow: 1 }}>
               <Text style={styles.totalsLabel}>Distance</Text>
-              <Text style={styles.segmentNumbers}>{`${effectiveSegment.distance.toFixed(2)} km`}</Text>
+              <Text style={styles.segmentNumbers}>{`${effectiveSegment.distance.toFixed(2)} ${distanceUnit}`}</Text>
             </View>
             <View style={{ flexGrow: 1 }}>
               <Text style={styles.totalsLabel}>Active Time</Text>
@@ -109,7 +111,7 @@ export default function RecordActivity() {
         <View style={styles.totalsContainer}>
           <View style={{ flexGrow: 1 }}>
             <Text style={styles.totalsLabel}>Total Distance</Text>
-            <Text style={styles.fixedNumbers}>{`${totalDistance.toFixed(2)} km`}</Text>
+            <Text style={styles.fixedNumbers}>{`${totalDistance.toFixed(2)} ${distanceUnit}`}</Text>
           </View>
           <View style={{ flexGrow: 1 }}>
             <Text style={styles.totalsLabel}>Time Elapsed</Text>
@@ -123,9 +125,9 @@ export default function RecordActivity() {
       ? (
         <TouchableOpacity
           onPress={startActivityTracking}
-          style={styles.button}
+          style={secondaryButton}
         >
-          <Text style={styles.buttonText}>Start</Text>
+          <Text style={styles.secondaryButtonText}>Start</Text>
         </TouchableOpacity>
       ) : (
         <View style={styles.multiButton}>
@@ -166,6 +168,13 @@ const buttonStyle = {
   marginLeft: 10,
   marginRight: 10,
   padding: 10,
+}
+const actionButton = {
+  ... buttonStyle,
+}
+const secondaryButton = {
+  ... buttonStyle,
+  backgroundColor: "#228b22",
 }
 const buttonTextStyle = {
   fontSize: 32,
@@ -221,18 +230,14 @@ const styles = StyleSheet.create({
     fontVariant: ['tabular-nums'],
     fontWeight: 'bold',
   },
-  button: {
-    ... buttonStyle,
-  },
   actionButton: {
-    ... buttonStyle,
+    ... actionButton,
     flex: 7,
+    marginRight: 0,
   },
   secondaryButton: {
-    ... buttonStyle,
-    backgroundColor: "#228b22",
+    ... secondaryButton,
     flex: 3,
-    marginLeft: 0,
   },
   secondaryButtonText: {
     ... buttonTextStyle,
