@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { DistanceUnit } from '../util/distanceCalculator'
 
 const activitiesKey = 'activities'
 
@@ -41,10 +42,21 @@ async function migrateStore() {
     return {
       ... currentState,
       unsavedActivities: currentState.unsavedActivities.map(a => {
-        if(!a.name) {
-          return { ...a, name: 'An unnamed activity' }
+        return {
+          ... a,
+          name: !a.name ? 'Unnamed activity' : a.name,
+          totalDistance: a.totalDistance.val ? a.totalDistance : {
+            val: a.totalDistance,
+            unit: DistanceUnit.Km,
+          },
+          completedSegments: a.completedSegments.map(seg => ({
+            ... seg,
+            distance: seg.distance.val ? seg.distance : {
+              val: seg.distance,
+              unit: DistanceUnit.Km,
+            }
+          }))
         }
-        return a
       })
     }
   }

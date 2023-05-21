@@ -2,8 +2,9 @@ import { Button, StyleSheet, ScrollView, Text, TouchableOpacity, View } from 're
 import { Cell, Section, TableView, } from 'react-native-tableview-simple'
 import { useDispatch } from 'react-redux'
 
-import { DistanceUnit, useDistanceUnit } from './hooks/useDistanceUnit'
+import { useDistanceUnit } from './hooks/useDistanceUnit'
 import { changeDistanceUnits } from '../recordActivity/activitySlice'
+import { DistanceUnit, setDistanceUnit } from '../../util/distanceCalculator'
 
 
 const navigateToUnitSettings = navigation => navigation.navigate('Settings', {
@@ -16,7 +17,7 @@ export function UnitSettingsActivator({ navigation }) {
     <Cell
       cellStyle="RightDetail"
       title="Units"
-      detail={distanceUnit}
+      detail={distanceUnit === DistanceUnit.Km ? 'km' : 'mi'}
       accessory="DisclosureIndicator"
       onPress={() => navigateToUnitSettings(navigation)}
     />
@@ -25,7 +26,7 @@ export function UnitSettingsActivator({ navigation }) {
 
 export default function UnitSettings() {
   const dispatch = useDispatch()
-  const [distanceUnit, setDistanceUnit ] = useDistanceUnit()
+  const [distanceUnit, updateDistanceUnit] = useDistanceUnit()
   const getAccessory = unit => unit === distanceUnit ? 'Checkmark' : 'None'
 
   return (
@@ -38,6 +39,7 @@ export default function UnitSettings() {
             accessory={getAccessory(DistanceUnit.Km)}
             onPress={() => {
               setDistanceUnit(DistanceUnit.Km)
+              updateDistanceUnit(DistanceUnit.Km)
               dispatch(changeDistanceUnits({ unit: DistanceUnit.Km }))
             }}
           />
@@ -47,6 +49,7 @@ export default function UnitSettings() {
             accessory={getAccessory(DistanceUnit.Mile)}
             onPress={() => {
               setDistanceUnit(DistanceUnit.Mile)
+              updateDistanceUnit(DistanceUnit.Mile)
               dispatch(changeDistanceUnits({ unit: DistanceUnit.Mile }))
             }}
           />

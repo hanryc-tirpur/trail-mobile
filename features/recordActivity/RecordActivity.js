@@ -8,6 +8,7 @@ import { startLocationTracking, stopLocationTracking, } from './location-update-
 import { finishActivitySaga } from './save-activity-saga'
 import { startTimer, stopTimer, } from './timer-update-saga'
 import { useDistanceUnit } from '../settings/hooks/useDistanceUnit'
+import { getZeroDistance } from '../../util/distanceCalculator'
 
 
 export default function RecordActivity() {
@@ -71,7 +72,7 @@ export default function RecordActivity() {
 
   const now = Date.now()
   const effectiveSegment = currentSegment || {
-    distance: 0,
+    distance: getZeroDistance(),
     startTime: now,
   }
 
@@ -100,7 +101,7 @@ export default function RecordActivity() {
           <View style={styles.segmentNumbersContainer}>
             <View style={{ flexGrow: 1 }}>
               <Text style={styles.totalsLabel}>Distance</Text>
-              <Text style={styles.segmentNumbers}>{`${effectiveSegment.distance.toFixed(2)} ${distanceUnit}`}</Text>
+              <Text style={styles.segmentNumbers}>{`${effectiveSegment.distance.val.toFixed(2)} ${effectiveSegment.distance.unit}`}</Text>
             </View>
             <View style={{ flexGrow: 1 }}>
               <Text style={styles.totalsLabel}>Active Time</Text>
@@ -111,7 +112,7 @@ export default function RecordActivity() {
         <View style={styles.totalsContainer}>
           <View style={{ flexGrow: 1 }}>
             <Text style={styles.totalsLabel}>Total Distance</Text>
-            <Text style={styles.fixedNumbers}>{`${totalDistance.toFixed(2)} ${distanceUnit}`}</Text>
+            <Text style={styles.fixedNumbers}>{`${totalDistance.val.toFixed(2)} ${totalDistance.unit}`}</Text>
           </View>
           <View style={{ flexGrow: 1 }}>
             <Text style={styles.totalsLabel}>Time Elapsed</Text>

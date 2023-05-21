@@ -76,10 +76,7 @@ const toServerSegment = serverSegment => {
       startTime: serverSegment.startTime,
       endTime: serverSegment.endTime,
       timeElapsed: serverSegment.endTime - serverSegment.startTime,
-      distance: {
-        val: serverSegment.distance,
-        unit: 'km',
-      },
+      distance: serverSegment.distance,
       path: polyline.encode(serverSegment.locationEntries.map(e => [e.latitude, e.longitude]))
     }
   }
@@ -92,10 +89,7 @@ const toServerActivity = clientActivity => {
     name: clientActivity.name || 'Unnamed Activity',
     timeActive: clientActivity.timeActive,
     timeElapsed: clientActivity.timeElapsed,
-    totalDistance: {
-      val: clientActivity.totalDistance,
-      unit: 'km',
-    },
+    totalDistance: clientActivity.totalDistance,
     segments: clientActivity.completedSegments.map(toServerSegment),
   }
 }

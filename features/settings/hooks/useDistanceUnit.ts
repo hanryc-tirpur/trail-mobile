@@ -1,11 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import Urbit from '@uqbar/react-native-api'
-import { configureApi } from '@uqbar/react-native-api/configureApi'
 import { StateCreator, create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 import { shallow, } from 'zustand/shallow'
 
-const SETTINGS_STORE_KEY = 'trail/urbit'
+import { DistanceUnit, setDistanceUnit } from '../../../util/distanceCalculator'
+
+const SETTINGS_STORE_KEY = 'trail/settings'
 
 interface SettingsStore {
   distanceUnit: DistanceUnit,
@@ -14,10 +14,6 @@ interface SettingsStore {
   }
 }
 
-export enum DistanceUnit {
-  Mile = 'mi',
-  Km = 'km',
-}
 
 
 const settingsStore: StateCreator<SettingsStore> = (set, get) => ({
@@ -35,6 +31,16 @@ const useSettingsStore = create(persist(settingsStore, {
     const { actions, ...rest } = state
     return { ...rest }
   },
+  onRehydrateStorage: state => {
+    return (state, error) => {
+      if(!state) {
+        return
+      }
+
+      setDistanceUnit(state.distanceUnit)
+      console.log('rehydrated settings', state)
+    }
+  }
 }))
 
 export const useSettingsActions = () => useSettingsStore(state => state.actions)

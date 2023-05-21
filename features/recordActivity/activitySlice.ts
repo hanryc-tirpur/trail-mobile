@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { DistanceUnit } from '../settings/hooks/useDistanceUnit'
+
+import { Distance, addDistances, computeDistance, convertDistance, getZeroDistance, } from '../../util/distanceCalculator'
 
 interface ActivityState {
   isComplete: boolean,
   isPaused: boolean,
   isStarted: boolean,
 
-  distanceUnit: DistanceUnit,
   activity: ActivityData,
 }
 
@@ -17,7 +17,7 @@ interface ActivityData {
   timeElapsed: number,
   endTime?: number,
   startTime: number,
-  totalDistance: number,
+  totalDistance: Distance,
 
   completedSegments: CompletedSegment[],
   currentSegment: ActivitySegment | null,
@@ -30,7 +30,7 @@ enum ActivityType {
 }
 
 interface ActivitySegment {
-  distance: number,
+  distance: Distance,
   startTime: number,
 
   locationEntries: LocationEntry[],
@@ -40,7 +40,7 @@ interface CompletedSegment extends ActivitySegment {
   endTime: number,
 }
 
-interface LocationEntry {
+export interface LocationEntry {
   latitude: number,
   longitude: number,
 }
@@ -50,7 +50,6 @@ const initialState: ActivityState = {
   isComplete: false,
   isPaused: false,
   isStarted: false,
-  distanceUnit: DistanceUnit.Km,
 
   activity: {
     completedSegments: [],
@@ -58,7 +57,7 @@ const initialState: ActivityState = {
     timeActive: 0,
     timeElapsed: 0,
     startTime: 0,
-    totalDistance: 0,
+    totalDistance: getZeroDistance(),
   }
 }
 
@@ -70,25 +69,16 @@ export const activitySlice = createSlice({
       state.isComplete = true
       state.isPaused = false
     },
-    changeDistanceUnits: (state, action) => {
-      const { payload: { unit }} = action
-      if(state.distanceUnit === unit) {
-        return state
-      }
-
-      state.distanceUnit = unit
-      const multiplier = unit === DistanceUnit.Km
-        ? 1.609344   // mi to km
-        : 0.6213712  // km to mi
-      state.activity.totalDistance = state.activity.totalDistance * multiplier
+    changeDistanceUnits: (state) => {
+      const { activity } = state
+      state.activity.totalDistance = convertDistance(activity.totalDistance)
       if(state.activity.currentSegment) {
-        state.activity.currentSegment.distance = state.activity.currentSegment.distance * multiplier
+        state.activity.currentSegment.distance = convertDistance(state.activity.currentSegment.distance)
       }
-      state.activity.completedSegments = state.activity.completedSegments.map(seg => ({
+      state.activity.completedSegments = activity.completedSegments.map(seg => ({
         ... seg,
-        distance: seg.distance * multiplier,
+        distance: convertDistance(seg.distance),
       }))
-      console.log(unit, state.activity)
     },
     pauseActivity: (state, action) => {
       if(state.isPaused) return state
@@ -117,7 +107,7 @@ export const activitySlice = createSlice({
 
       state.isPaused = false
       activity.currentSegment = {
-        distance: 0,
+        distance: getZeroDistance(),
         locationEntries: [initialLocation.coords],
         startTime,
       }
@@ -129,7 +119,7 @@ export const activitySlice = createSlice({
       state.isStarted = true
       activity.startTime = startTime
       activity.currentSegment = {
-        distance: 0,
+        distance: getZeroDistance(),
         locationEntries: [initialLocation.coords],
         startTime,
       }
@@ -157,16 +147,16 @@ export const activitySlice = createSlice({
       const { coords, timestamp } = location
       const previousCoords = getLast(activity.currentSegment.locationEntries)
 
-      const distance = createDistanceComputer(state.distanceUnit)(previousCoords, coords)
-      if(isNaN(distance)) {
+      const distance = computeDistance(previousCoords, coords)
+      if(isNaN(distance.val)) {
         return state
       }
 
-      activity.currentSegment.distance += distance
+      activity.currentSegment.distance = addDistances(activity.currentSegment.distance, distance)
       activity.currentSegment.locationEntries.push(coords)
 
       activity.totalDistance = activity.completedSegments.reduce((sum, seg) => {
-        return sum += seg.distance
+        return addDistances(sum, seg.distance)
       }, activity.currentSegment.distance)
     },
   },
@@ -185,30 +175,6 @@ export const {
 
 export default activitySlice.reducer
 
-
-export function createDistanceComputer(unit: DistanceUnit) {
-  return ({ latitude: prevLat, longitude: prevLong }: LocationEntry, { latitude: lat, longitude: long }: LocationEntry) => {
-    const prevLatInRad = toRad(prevLat)
-    const prevLongInRad = toRad(prevLong)
-    const latInRad = toRad(lat)
-    const longInRad = toRad(long)
-
-    const kmDistance = (
-      // In kilometers
-      6377.830272 *
-      Math.acos(
-        Math.sin(prevLatInRad) * Math.sin(latInRad) +
-          Math.cos(prevLatInRad) * Math.cos(latInRad) * Math.cos(longInRad - prevLongInRad),
-      )
-    )
-    const milesMultiplier = unit === DistanceUnit.Km ? 1.0 : 0.6213712
-    return kmDistance * milesMultiplier
-  }
-}
-
-function toRad(angle: number) {
-  return (angle * Math.PI) / 180
-}
 
 function getLast<T>(arr: T[]) {
   return arr[arr.length - 1]
