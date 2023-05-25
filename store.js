@@ -15,7 +15,7 @@ import { watchPokeRequest, watchScryRequest } from './data/urbitApiSaga'
 const sagaMiddleware = createSagaMiddleware()
 
 export default async function createStore() {
-  const activities = await loadActivities()
+  // const activities = await loadActivities()
   
   const store = configureStore({
     reducer: {
@@ -27,7 +27,7 @@ export default async function createStore() {
       getDefaultMiddleware().concat([ sagaMiddleware ]),
     preloadedState: {
       activities: {
-        activities,
+        activities: [],
       },
     },
   })
