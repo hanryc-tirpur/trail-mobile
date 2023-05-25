@@ -17,6 +17,8 @@ import SettingsNavigator from './features/settings/SettingsNavigator'
 import useSplashScreen from './hooks/useSplashScreen'
 import { useUrbitApi } from './hooks/useUrbitStore'
 
+import { verifyConnection } from './features/urbitConnection/urbitConnection'
+
 
 const Tab = createBottomTabNavigator()
 

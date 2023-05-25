@@ -12,7 +12,6 @@ export default function* watchForSaveActivity() {
 function* saveActivitySaga() {
   const activityState = yield select(s => s.activity)
   yield call(saveActivity, activityState.activity)
-  yield put(saveToUrbit(activityState.activity))
   yield put(addActivity({ activity: activityState.activity }))
   yield put(finishActivity())
 }

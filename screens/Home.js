@@ -44,18 +44,18 @@ export default function HomeScreen() {
     return { completedSegments, region }
   }
 
-  useEffect(() => {
-    async function getIt() {
-      const acts = await scry({
-        app: 'trail',
-        path: '/activities/all',
-      })
-      console.log('from server', acts)
-    }
-    if(isConnected) {
-      getIt()
-    }
-  }, [isConnected])
+  // useEffect(() => {
+  //   async function getIt() {
+  //     const acts = await scry({
+  //       app: 'trail',
+  //       path: '/activities/all',
+  //     })
+  //     console.log('from server', acts)
+  //   }
+  //   if(isConnected) {
+  //     getIt()
+  //   }
+  // }, [isConnected])
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
