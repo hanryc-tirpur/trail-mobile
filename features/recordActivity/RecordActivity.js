@@ -3,17 +3,18 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import MapView, { Polyline } from 'react-native-maps'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { pauseActivity, resumeActivity, startActivity } from './activitySlice'
+import { finishActivity, pauseActivity, resumeActivity, startActivity } from './activitySlice'
 import { startLocationTracking, stopLocationTracking, } from './location-update-saga'
-import { finishActivitySaga } from './save-activity-saga'
 import { startTimer, stopTimer, } from './timer-update-saga'
 import { useDistanceUnit } from '../settings/hooks/useDistanceUnit'
 import { getZeroDistance } from '../../util/distanceCalculator'
+import { useViewActivityActions } from '../viewActivity/useVewActivityStore'
 
 
-export default function RecordActivity() {
+export default function RecordActivity({ navigation }) {
   const dispatch = useDispatch()
   const [distanceUnit] = useDistanceUnit()
+  const { viewActivity } = useViewActivityActions()
   const { activity: activitySlice, location: { currentLocation }, } = useSelector(s => ({
     activity: s.activity,
     location: s.location,
@@ -22,28 +23,34 @@ export default function RecordActivity() {
     isComplete,
     isPaused,
     isStarted,
-    activity: {
-      completedSegments,
-      currentSegment,
-      startTime,
-      timeActive,
-      timeElapsed,
-      totalDistance,
-    }
+    activity,
   } = activitySlice
+  const {
+    completedSegments,
+    currentSegment,
+    startTime,
+    timeActive,
+    timeElapsed,
+    totalDistance,
+  } = activity
 
   useEffect(() => {
     dispatch(startLocationTracking())
   }, [])
 
-  const finishActivityTracking = () => {
-    if(!isPaused) {
-      dispatch(pauseActivity({
-        pauseTime: Date.now(),
-        pauseLocation: currentLocation,
-      }))
+  useEffect(() => {
+    if(isComplete) {
+      viewActivity(activity)
+      navigation.navigate('RecordActivityViewActivity')
     }
-    dispatch(finishActivitySaga())
+  }, [isComplete])
+
+  const finishActivityTracking = () => {
+    dispatch(pauseActivity({
+      pauseTime: Date.now(),
+      pauseLocation: currentLocation,
+    }))
+    dispatch(finishActivity())
     dispatch(stopTimer())
     dispatch(stopLocationTracking())
   }

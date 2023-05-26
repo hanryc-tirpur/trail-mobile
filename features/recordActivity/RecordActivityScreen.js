@@ -7,7 +7,7 @@ import { initTracking } from './locationChannel'
 import RecordActivity from './RecordActivity'
 
 
-export default function RecordActivityScreen() {
+export default function RecordActivityScreen({ navigation }) {
   const [foregroundStatus, requestForegroundPermission] = useForegroundPermissions()
   const [backgroundStatus, requestBackgroundPermission] = useBackgroundPermissions()
 
@@ -27,7 +27,7 @@ export default function RecordActivityScreen() {
   }, [foregroundStatus?.status, backgroundStatus?.status])
 
   return foregroundStatus?.granted && backgroundStatus?.granted
-    ? (<RecordActivity />)
+    ? (<RecordActivity navigation={navigation} />)
     : (<>
       <View style={styles.container}>
         <Text>

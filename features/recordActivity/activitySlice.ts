@@ -46,25 +46,33 @@ export interface LocationEntry {
 }
 
 
-const initialState: ActivityState = {
-  isComplete: false,
-  isPaused: false,
-  isStarted: false,
+function createInitialState(): ActivityState {
+  return {
+    isComplete: false,
+    isPaused: false,
+    isStarted: false,
 
-  activity: {
-    completedSegments: [],
-    currentSegment: null,
-    timeActive: 0,
-    timeElapsed: 0,
-    startTime: 0,
-    totalDistance: getZeroDistance(),
+    activity: {
+      completedSegments: [],
+      currentSegment: null,
+      timeActive: 0,
+      timeElapsed: 0,
+      startTime: 0,
+      totalDistance: getZeroDistance(),
+    }
   }
 }
 
 export const activitySlice = createSlice({
   name: 'activity',
-  initialState,
+  initialState: createInitialState(),
   reducers: {
+    resetRecorder: (state) => {
+      return {
+        ... state,
+        ... createInitialState(),
+      }
+    },
     finishActivity: (state) => {
       state.isComplete = true
       state.isPaused = false
@@ -80,10 +88,10 @@ export const activitySlice = createSlice({
         distance: convertDistance(seg.distance),
       }))
     },
-    pauseActivity: (state, action) => {
+    pauseActivity(state, { payload }) {
       if(state.isPaused) return state
 
-      const { pauseTime, pauseLocation, } = action.payload
+      const { pauseTime, pauseLocation, } = payload
       const { activity } = state
 
       if(activity.currentSegment === null) {
@@ -162,11 +170,13 @@ export const activitySlice = createSlice({
   },
 })
 
+
 // Action creators are generated for each case reducer function
 export const {
   finishActivity,
   changeDistanceUnits,
   pauseActivity,
+  resetRecorder,
   resumeActivity,
   startActivity,
   timerTick,

@@ -14,6 +14,9 @@ const activitiesState: StateCreator<ActivitiesStore> = (set, get) => ({
   syncedActivities: [],
   unsyncedActivities: [],
   actions: {
+    addSyncedActivities(activities: CompletedActivity[]) {
+      set({ syncedActivities: activities })
+    },
     addUnsyncedActivity(activity: CompletedActivity) {
       const { unsyncedActivities } = get()
       set({
@@ -22,8 +25,8 @@ const activitiesState: StateCreator<ActivitiesStore> = (set, get) => ({
           activity,
         ]
       })
-    }
-  }
+    },
+  },
 })
 
 export const activitiesStore = createStore(persist(activitiesState, {

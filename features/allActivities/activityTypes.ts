@@ -5,6 +5,7 @@ export interface ActivitiesStore {
   unsyncedActivities: CompletedActivity[],
   actions: {
     addUnsyncedActivity: (activity: CompletedActivity) => void,
+    addSyncedActivities: (activities: CompletedActivity[]) => void,
   }
 }
 

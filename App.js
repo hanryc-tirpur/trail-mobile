@@ -12,7 +12,7 @@ import useColors from './external/pongo/hooks/useColors'
 import useColorScheme from './external/pongo/hooks/useColorScheme'
 
 import HomeScreen from './screens/Home'
-import RecordActivityScreen from './features/recordActivity/RecordActivityScreen'
+import RecordActivityNavigator from './features/recordActivity/RecordActivityNavigator'
 import SettingsNavigator from './features/settings/SettingsNavigator'
 import useSplashScreen from './hooks/useSplashScreen'
 import { useUrbitApi } from './hooks/useUrbitStore'
@@ -60,7 +60,7 @@ export default function App() {
               <Tab.Screen name="Home" component={HomeScreen} screenOptions={{
                 height: '100%',
               }} />
-              <Tab.Screen name="Record" component={RecordActivityScreen} />
+              <Tab.Screen name="Record" component={RecordActivityNavigator} options={{ headerShown: false, }} />
               <Tab.Screen name="Settings" component={SettingsNavigator} options={{ headerShown: false, }} />
             </Tab.Navigator>
           <StatusBar translucent style={colorScheme === 'dark' ? 'light' : 'dark'} />
