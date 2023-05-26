@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, TouchableOpacity, } from 'react-native'
 import MapView, { Polyline } from 'react-native-maps'
 import { SafeAreaProvider } from "react-native-safe-area-context"
 import polyline from '@mapbox/polyline'
@@ -12,7 +12,9 @@ import { useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { useUrbitConnection } from '../hooks/useUrbitStore'
 import { scry } from '../data/urbitApiSaga'
-
+import useAllActivities from '../hooks/useAllActivities'
+import { useActivitiesActions } from '../features/allActivities/useActivitiesStore' 
+import { toCompletedActivity } from '../util/activityConverter'
 
 export default function HomeScreen() {
   const { loading, setLoading, ship: self, shipUrl, authCookie, loadStore, needLogin, setNeedLogin, setShip, addShip } = useStore()
@@ -44,18 +46,18 @@ export default function HomeScreen() {
     return { completedSegments, region }
   }
 
-  // useEffect(() => {
-  //   async function getIt() {
-  //     const acts = await scry({
-  //       app: 'trail',
-  //       path: '/activities/all',
-  //     })
-  //     console.log('from server', acts)
-  //   }
-  //   if(isConnected) {
-  //     getIt()
-  //   }
-  // }, [isConnected])
+  useEffect(() => {
+    async function getIt() {
+      const acts = await scry({
+        app: 'trail',
+        path: '/activities/all',
+      })
+      console.log('from server', acts)
+    }
+    if(isConnected) {
+      getIt()
+    }
+  }, [isConnected])
 
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -70,6 +72,7 @@ export default function HomeScreen() {
         }
         <View style={{ flexGrow: 1, width: '100%', }}>
           <Text>Details</Text>
+          <MigrateData />
         </View>
       </SafeAreaProvider>
     </View>
@@ -92,6 +95,30 @@ function LatestActivity({ completedSegments, region, }) {
           />
         ))}
       </MapView>
+    </View>
+  )
+}
+
+function MigrateData() {
+  const [hasActivities, allActivities] = useAllActivities()
+  const { addUnsyncedActivity } = useActivitiesActions()
+
+  const migrateActivities = () => {
+    allActivities.unsavedActivities
+      .map(toCompletedActivity)
+      .forEach(act => addUnsyncedActivity(act))
+  }
+
+  return (
+    hasActivities && <View>
+      <Text>
+        You have {allActivities.length} activities to migrate.
+      </Text>
+      <TouchableOpacity
+        onPress={migrateActivities}
+      >
+        <Text>Migrate</Text>
+      </TouchableOpacity>
     </View>
   )
 }
