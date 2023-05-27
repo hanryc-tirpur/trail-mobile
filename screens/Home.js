@@ -81,11 +81,11 @@ function LatestActivity({ activity }) {
 }
 
 function MigrateData() {
-  const [hasActivities, allActivities] = useAllActivitiesOld()
+  const [hasActivities, unsavedActivites] = useAllActivitiesOld()
   const { addUnsyncedActivity } = useActivitiesActions()
 
   const migrateActivities = () => {
-    allActivities.unsavedActivities
+    unsavedActivities
       .map(toCompletedActivity)
       .forEach(act => addUnsyncedActivity(act))
   }
@@ -93,7 +93,7 @@ function MigrateData() {
   return (
     hasActivities && <View>
       <Text>
-        You have {allActivities.length} activities to migrate.
+        You have {unsavedActivites.length} activities to migrate.
       </Text>
       <TouchableOpacity
         onPress={migrateActivities}

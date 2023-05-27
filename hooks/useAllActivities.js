@@ -15,7 +15,7 @@ export default function useAllActivities() {
     load()
   }, [])
 
-  const allActivities = (activityData?.unsavedActivites || [])
-    .concat((activityData?.savedActivites || []))
-  return [allActivities.length !== 0, allActivities]
+  const unsavedActivities = activityData?.unsavedActivites || []
+
+  return [unsavedActivities.length !== 0, unsavedActivities]
 }
