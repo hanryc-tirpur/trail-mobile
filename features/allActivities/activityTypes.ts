@@ -14,11 +14,18 @@ export interface ActivitySegment {
   startTime: number,
   timeElapsed: number,
 
-  path: string,
 }
 
 export interface CompletedSegment extends ActivitySegment {
   endTime: number,
+}
+
+export interface CompletedLatLongSegment extends CompletedSegment {
+  locationEntries: LatLongPair[]
+}
+
+export interface CompletedPathSegment extends CompletedSegment {
+  path: string,
 }
 
 export enum ActivityType {
@@ -35,8 +42,10 @@ export interface CompletedActivity {
   timeElapsed: number,
   totalDistance: Distance,
 
-  segments: CompletedSegment[],
+  segments: CompletedPathSegment[],
 }
+
+export type LatLongPair = [number, number]
 
 export interface LocationEntry {
   latitude: number,

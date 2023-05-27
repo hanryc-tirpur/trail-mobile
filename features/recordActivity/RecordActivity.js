@@ -1,11 +1,11 @@
-import React, { useEffect, } from 'react'
+import React, { useEffect, useState, } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import MapView, { Polyline } from 'react-native-maps'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { finishActivity, pauseActivity, resumeActivity, startActivity } from './activitySlice'
-import { startLocationTracking, stopLocationTracking, } from './location-update-saga'
-import { startTimer, stopTimer, } from './timer-update-saga'
+import { startLocationTracking } from './location-update-saga'
+import { startTimer } from './timer-update-saga'
 import { useDistanceUnit } from '../settings/hooks/useDistanceUnit'
 import { getZeroDistance } from '../../util/distanceCalculator'
 import { useViewActivityActions } from '../viewActivity/useVewActivityStore'
@@ -13,6 +13,7 @@ import { useViewActivityActions } from '../viewActivity/useVewActivityStore'
 
 export default function RecordActivity({ navigation }) {
   const dispatch = useDispatch()
+  const [isInitialized, setIsInitialized] = useState(false)
   const [distanceUnit] = useDistanceUnit()
   const { viewActivity } = useViewActivityActions()
   const { activity: activitySlice, location: { currentLocation }, } = useSelector(s => ({
@@ -40,6 +41,7 @@ export default function RecordActivity({ navigation }) {
 
   useEffect(() => {
     if(isComplete) {
+      console.log('viewing activity', activity)
       viewActivity(activity)
       navigation.navigate('RecordActivityViewActivity')
     }
@@ -51,8 +53,6 @@ export default function RecordActivity({ navigation }) {
       pauseLocation: currentLocation,
     }))
     dispatch(finishActivity())
-    dispatch(stopTimer())
-    dispatch(stopLocationTracking())
   }
 
   const pauseActivityTracking = () => {

@@ -75,7 +75,6 @@ export const activitySlice = createSlice({
     },
     finishActivity: (state) => {
       state.isComplete = true
-      state.isPaused = false
     },
     changeDistanceUnits: (state) => {
       const { activity } = state
@@ -113,6 +112,7 @@ export const activitySlice = createSlice({
       const { startTime, initialLocation, } = action.payload
       const { activity } = state
 
+      state.isComplete = false
       state.isPaused = false
       activity.currentSegment = {
         distance: getZeroDistance(),

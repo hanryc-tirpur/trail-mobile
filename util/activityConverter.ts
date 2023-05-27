@@ -1,6 +1,10 @@
 import polyline from '@mapbox/polyline'
 
-import { ActivityType, CompletedActivity, CompletedSegment } from "../features/allActivities/activityTypes";
+import {
+  ActivityType,
+  CompletedActivity,
+  CompletedPathSegment,
+} from "../features/allActivities/activityTypes";
 import { CompletedInProgressSegment, InProgressActivity } from "../features/recordActivity/recordingActivityTypes";
 
 
@@ -16,7 +20,7 @@ export function toCompletedActivity(inProgress: InProgressActivity): CompletedAc
   }
 }
 
-function toCompletedSegment(inProgress: CompletedInProgressSegment): CompletedSegment {
+function toCompletedSegment(inProgress: CompletedInProgressSegment): CompletedPathSegment {
   return {
     startTime: inProgress.startTime,
     endTime: inProgress.endTime,

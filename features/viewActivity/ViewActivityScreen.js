@@ -2,16 +2,25 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import MapView, { Polyline } from 'react-native-maps'
 import { useDispatch, useSelector } from 'react-redux'
 
-
-import { useViewActivity, useViewActivityActions } from './useVewActivityStore'
-import { getBoundingRegion } from '../../util/mapUtils'
-import { resetRecorder } from '../recordActivity/activitySlice'
 import { useActivitiesActions } from '../allActivities/useActivitiesStore'
+import { resetRecorder } from '../recordActivity/activitySlice'
+import { stopLocationTracking } from '../recordActivity/location-update-saga'
+import { stopTimer } from '../recordActivity/timer-update-saga'
 import { toCompletedActivity } from '../../util/activityConverter'
+import { getBoundingRegionForActivity, getMapInfoForInProgressActivity } from '../../util/mapUtils'
+import { useViewActivity, useViewActivityActions } from './useVewActivityStore'
+import useRedirectOnNoActivity from './useRedirectOnNoActivity'
+import { assertIsNotNull } from '../../util/assertions'
+
 
 export default function ViewActivityScreen({ navigation }) {
+  const dispatch = useDispatch()
   const { addUnsyncedActivity } = useActivitiesActions()
-  const activity = useViewActivity()
+  const { clearActivity } = useViewActivityActions()
+  const { activity } = useViewActivity()
+
+  if(activity === null) return null
+
   const {
     completedSegments,
     currentSegment,
@@ -19,31 +28,40 @@ export default function ViewActivityScreen({ navigation }) {
     timeActive,
     timeElapsed,
     totalDistance,
-  } = activity
+  } = activity || {}
 
   function discardViewedActivity() {
     resetRecorder()
+    dispatch(stopLocationTracking())
+    dispatch(stopTimer())
+    clearActivity()
     navigation.navigate('RecordActivityScreen')
   }
 
   function saveViewedActivity() {
+    assertIsNotNull(activity)
     console.log('Saving completed activity', toCompletedActivity(activity))
     addUnsyncedActivity(toCompletedActivity(activity))
     resetRecorder()
+    dispatch(stopLocationTracking())
+    dispatch(stopTimer())
+    clearActivity()
     navigation.navigate('Home')
   }
 
+  // @ts-ignore
+  const { mapSegments, region } = getMapInfoForInProgressActivity(activity)
   return (<View style={styles.screen}>
     <View style={styles.container}>
       <View style={styles.mapContainer}>
         <MapView
           style={styles.map}
-          region={getBoundingRegion(completedSegments)}
+          region={region}
         >
-          {completedSegments.map((segment, i) => (
+          {mapSegments.map((segment, i) => (
             <Polyline
               key={i}
-              coordinates={segment.locationEntries}
+              coordinates={segment.entries}
               strokeWidth={3}
             />
           ))}

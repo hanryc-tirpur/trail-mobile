@@ -1,12 +1,13 @@
 import { StateCreator, create } from 'zustand'
 import { shallow, } from 'zustand/shallow'
 
-import { CompletedActivity } from '../allActivities/activityTypes'
+import { InProgressActivity } from '../recordActivity/recordingActivityTypes'
 
 interface ViewActivityStore {
-  activity: CompletedActivity | null,
+  activity: InProgressActivity | null,
   actions: {
-    viewActivity: (activity: CompletedActivity) => void,
+    clearActivity: () => void,
+    viewActivity: (activity: InProgressActivity) => void,
   }
 }
 
@@ -14,9 +15,12 @@ interface ViewActivityStore {
 const viewActivityStore: StateCreator<ViewActivityStore> = (set, get) => ({
   activity: null,
   actions: {
+    clearActivity() {
+      set({ activity: null })
+    },
     viewActivity(activity) {
       set( { activity })
-    }
+    },
   }
 })
 
@@ -24,4 +28,7 @@ const useViewActivityStore = create(viewActivityStore)
 
 export const useViewActivityActions = () => useViewActivityStore(state => state.actions)
 
-export const useViewActivity = () => useViewActivityStore(state => state.activity, shallow)
+export const useViewActivity = () => useViewActivityStore(state => ({ 
+  activity: state.activity,
+  hasActivity: state.activity !== null,
+}), shallow)

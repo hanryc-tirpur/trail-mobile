@@ -12,39 +12,19 @@ import { useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { useUrbitConnection } from '../hooks/useUrbitStore'
 import { scry } from '../data/urbitApiSaga'
-import useAllActivities from '../hooks/useAllActivities'
-import { useActivitiesActions } from '../features/allActivities/useActivitiesStore' 
+import { useActivitiesActions, useAllActivities, } from '../features/allActivities/useActivitiesStore' 
 import { toCompletedActivity } from '../util/activityConverter'
+import { getMapInfoForCompletedActivity, } from '../util/mapUtils'
+import useAllActivitiesOld from '../hooks/useAllActivities'
 
 export default function HomeScreen() {
   const { loading, setLoading, ship: self, shipUrl, authCookie, loadStore, needLogin, setNeedLogin, setShip, addShip } = useStore()
-  const { activities } = useSelector(s => s.activities)
   const { color, backgroundColor } = useColors()
   const colorScheme = useColorScheme()
   const { isConnected } = useUrbitConnection()
+  const activities = useAllActivities()
 
   const hasActivities = (activities || []).length !== 0
-
-  function getMapProps() {
-    const { completedSegments } = activities[activities.length - 1]
-    const allCoords = completedSegments.reduce((all, seg) => {
-      return [
-        ... all,
-        ... seg.locationEntries.map(l => [l.latitude, l.longitude])
-      ]
-    }, [])
-    const encoded = polyline.encode(allCoords)
-    const geo = polyline.toGeoJSON(encoded)
-    const box = bbox(geo)
-    const cen = center(geo)
-    const region = {
-      latitude: cen.geometry.coordinates[1],
-      longitude: cen.geometry.coordinates[0],
-      latitudeDelta: Math.abs(box[1] - box[3]) * 2,
-      longitudeDelta: Math.abs(box[0] - box[2]) * 2,
-    }
-    return { completedSegments, region }
-  }
 
   useEffect(() => {
     async function getIt() {
@@ -63,7 +43,7 @@ export default function HomeScreen() {
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <SafeAreaProvider style={{ backgroundColor, height: '100%', width: '100%' }}>
         { hasActivities
-          ? (<LatestActivity {... getMapProps()} />)
+          ? (<LatestActivity activity={activities[0]} />)
           : (
             <View style={{ flexGrow: 0, width: '100%', }}>
               <Text>Record an activity!</Text>
@@ -79,7 +59,8 @@ export default function HomeScreen() {
   )
 }
 
-function LatestActivity({ completedSegments, region, }) {
+function LatestActivity({ activity }) {
+  const { mapSegments, region, } = getMapInfoForCompletedActivity(activity)
   return (
     <View style={{ flexGrow: 0, width: '100%', }}>
       <Text>Latest Activity</Text>
@@ -87,10 +68,10 @@ function LatestActivity({ completedSegments, region, }) {
         style={styles.map}
         region={region}
       >
-        {completedSegments.map((segment, i) => (
+        {mapSegments.map((segment, i) => (
           <Polyline
             key={i}
-            coordinates={segment.locationEntries}
+            coordinates={segment.entries}
             strokeWidth={3}
           />
         ))}
@@ -100,7 +81,7 @@ function LatestActivity({ completedSegments, region, }) {
 }
 
 function MigrateData() {
-  const [hasActivities, allActivities] = useAllActivities()
+  const [hasActivities, allActivities] = useAllActivitiesOld()
   const { addUnsyncedActivity } = useActivitiesActions()
 
   const migrateActivities = () => {
