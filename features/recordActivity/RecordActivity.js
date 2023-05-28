@@ -3,12 +3,13 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import MapView, { Polyline } from 'react-native-maps'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { finishActivity, pauseActivity, resumeActivity, startActivity } from './activitySlice'
+import { changeDistanceUnits, finishActivity, pauseActivity, resumeActivity, startActivity } from './activitySlice'
 import { startLocationTracking } from './location-update-saga'
 import { startTimer } from './timer-update-saga'
 import { useDistanceUnit } from '../settings/hooks/useDistanceUnit'
 import { getZeroDistance } from '../../util/distanceCalculator'
 import { useViewActivityActions } from '../viewActivity/useVewActivityStore'
+import { toDistanceText } from '../../formatting/distance'
 
 
 export default function RecordActivity({ navigation }) {
@@ -37,6 +38,7 @@ export default function RecordActivity({ navigation }) {
 
   useEffect(() => {
     dispatch(startLocationTracking())
+    dispatch(changeDistanceUnits())
   }, [])
 
   useEffect(() => {
@@ -108,7 +110,7 @@ export default function RecordActivity({ navigation }) {
           <View style={styles.segmentNumbersContainer}>
             <View style={{ flexGrow: 1 }}>
               <Text style={styles.totalsLabel}>Distance</Text>
-              <Text style={styles.segmentNumbers}>{`${effectiveSegment.distance.val.toFixed(2)} ${effectiveSegment.distance.unit}`}</Text>
+              <Text style={styles.segmentNumbers}>{toDistanceText(effectiveSegment.distance)}</Text>
             </View>
             <View style={{ flexGrow: 1 }}>
               <Text style={styles.totalsLabel}>Active Time</Text>
@@ -119,7 +121,7 @@ export default function RecordActivity({ navigation }) {
         <View style={styles.totalsContainer}>
           <View style={{ flexGrow: 1 }}>
             <Text style={styles.totalsLabel}>Total Distance</Text>
-            <Text style={styles.fixedNumbers}>{`${totalDistance.val.toFixed(2)} ${totalDistance.unit}`}</Text>
+            <Text style={styles.fixedNumbers}>{toDistanceText(totalDistance)}</Text>
           </View>
           <View style={{ flexGrow: 1 }}>
             <Text style={styles.totalsLabel}>Time Elapsed</Text>
