@@ -7,10 +7,11 @@ import { resetRecorder } from '../recordActivity/activitySlice'
 import { stopLocationTracking } from '../recordActivity/location-update-saga'
 import { stopTimer } from '../recordActivity/timer-update-saga'
 import { toCompletedActivity } from '../../util/activityConverter'
-import { getBoundingRegionForActivity, getMapInfoForInProgressActivity } from '../../util/mapUtils'
+import { getMapInfoForInProgressActivity } from '../../util/mapUtils'
 import { useViewActivity, useViewActivityActions } from './useVewActivityStore'
 import useRedirectOnNoActivity from './useRedirectOnNoActivity'
 import { assertIsNotNull } from '../../util/assertions'
+import { useUrbitActions } from '../../hooks/useUrbitStore'
 
 
 export default function ViewActivityScreen({ navigation }) {
@@ -18,6 +19,7 @@ export default function ViewActivityScreen({ navigation }) {
   const { addUnsyncedActivity } = useActivitiesActions()
   const { clearActivity } = useViewActivityActions()
   const { activity } = useViewActivity()
+  const { syncActivity } = useUrbitActions()
 
   if(activity === null) return null
 
@@ -40,8 +42,10 @@ export default function ViewActivityScreen({ navigation }) {
 
   function saveViewedActivity() {
     assertIsNotNull(activity)
-    console.log('Saving completed activity', toCompletedActivity(activity))
-    addUnsyncedActivity(toCompletedActivity(activity))
+    const completedActivity = toCompletedActivity(activity)
+    console.log('Saving completed activity', completedActivity)
+    addUnsyncedActivity(completedActivity)
+    syncActivity(completedActivity)
     resetRecorder()
     dispatch(stopLocationTracking())
     dispatch(stopTimer())

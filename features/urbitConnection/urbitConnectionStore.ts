@@ -5,9 +5,10 @@ import { createStore } from 'zustand/vanilla'
 import { createJSONStorage, persist } from 'zustand/middleware'
 import { shallow, } from 'zustand/shallow'
 
-import { initializeApi } from '../../data/urbitApiSaga'
+import { initializeApi, poke } from '../../data/urbitApiSaga'
 import { UrbitStore } from './urbitTypes'
 import { publish } from './urbitBus'
+import { CompletedActivity } from '../allActivities/activityTypes'
 
 // import { unstable_batchedUpdates } from 'react-native'
 
@@ -30,6 +31,30 @@ const urbitStore: StateCreator<UrbitStore> = (set, get) => ({
       set({
         isConnected,
       })
+    },
+    syncActivity: async (activity: CompletedActivity) => {
+      const { isConnected, } = get()
+      console.log({
+        'save-activity': {
+          'tracked': activity,
+        }
+      })
+      if(isConnected) {
+        await poke({
+          app: 'trail',
+          mark: 'trail-action',
+          json: {
+            'save-activity': {
+              'tracked': {
+                ... activity,
+                segments: activity.segments.map(seg => ({
+                  'polyline': seg,
+                }))
+              },
+            }
+          }
+        })
+      }
     },
   }
 })
