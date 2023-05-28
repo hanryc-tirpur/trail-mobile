@@ -8,14 +8,11 @@ import center from '@turf/center'
 import useColors from '../external/pongo/hooks/useColors'
 import useColorScheme from '../external/pongo/hooks/useColorScheme'
 import useStore from '../external/pongo/state/useStore'
-import { useSelector } from 'react-redux'
 import { useEffect } from 'react'
 import { useUrbitConnection } from '../hooks/useUrbitStore'
 import { scry } from '../data/urbitApiSaga'
-import { useActivitiesActions, useAllActivities, } from '../features/allActivities/useActivitiesStore' 
-import { toCompletedActivity } from '../util/activityConverter'
+import { useAllActivities, } from '../features/allActivities/useActivitiesStore' 
 import { getMapInfoForCompletedActivity, } from '../util/mapUtils'
-import useAllActivitiesOld from '../hooks/useAllActivities'
 
 export default function HomeScreen() {
   const { loading, setLoading, ship: self, shipUrl, authCookie, loadStore, needLogin, setNeedLogin, setShip, addShip } = useStore()
@@ -52,7 +49,6 @@ export default function HomeScreen() {
         }
         <View style={{ flexGrow: 1, width: '100%', }}>
           <Text>Details</Text>
-          <MigrateData />
         </View>
       </SafeAreaProvider>
     </View>
@@ -76,30 +72,6 @@ function LatestActivity({ activity }) {
           />
         ))}
       </MapView>
-    </View>
-  )
-}
-
-function MigrateData() {
-  const [hasActivities, unsavedActivites] = useAllActivitiesOld()
-  const { addUnsyncedActivity } = useActivitiesActions()
-
-  const migrateActivities = () => {
-    unsavedActivities
-      .map(toCompletedActivity)
-      .forEach(act => addUnsyncedActivity(act))
-  }
-
-  return (
-    hasActivities && <View>
-      <Text>
-        You have {unsavedActivites.length} activities to migrate.
-      </Text>
-      <TouchableOpacity
-        onPress={migrateActivities}
-      >
-        <Text>Migrate</Text>
-      </TouchableOpacity>
     </View>
   )
 }

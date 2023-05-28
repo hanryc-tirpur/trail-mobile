@@ -2,11 +2,10 @@ import { Button, StyleSheet, ScrollView, Text, TouchableOpacity, View } from 're
 import { Cell, Section, TableView } from 'react-native-tableview-simple'
 
 import { useUrbitApi, useUrbitConnection } from '../../hooks/useUrbitStore'
-import useAllActivities from '../../hooks/useAllActivities'
-import useSyncUnsavedActivities from '../../data/useSyncUnsavedActivities'
 import useExportActivities from '../../hooks/useExportActivityData'
 import { UnitSettingsActivator } from './UnitSettings'
 import UrbitSettingsActivator from './UrbitSettingsActivator'
+import { useUnsyncedActivities } from '../allActivities/useActivitiesStore'
 
 const styles = StyleSheet.create({
   stage: {
@@ -57,8 +56,7 @@ const ConnectToUrbit = ({ navigation }) => {
 }
 
 const ConnectedUrbit = () => {
-  const [isActivityStateLoaded, activityState] = useAllActivities()
-  const syncUnsavedActivities = useSyncUnsavedActivities()
+  const unsyncedActivities = useUnsyncedActivities()
   const exportActivities = useExportActivities()
   const { connection } = useUrbitConnection()
 
@@ -67,7 +65,7 @@ const ConnectedUrbit = () => {
       <View>
         <Text>Connected to {connection.ship}</Text>
       </View>
-      { isActivityStateLoaded && activityState.unsavedActivities.length && (
+      { unsyncedActivities?.length && (
         <View>
           <Text>
             You have unsaved activities. Do you want to save them to your Urbit?

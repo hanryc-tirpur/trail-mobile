@@ -1,7 +1,7 @@
 import * as FileSystem from 'expo-file-system'
 import * as Sharing from 'expo-sharing'
 
-import { loadAllActivities } from '../data/storage'
+import { activitiesStore } from '../features/allActivities/activitiesStore'
 
 export default function useExportActivities() {
   const doExport = async () => {

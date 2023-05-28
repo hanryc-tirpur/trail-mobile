@@ -1,7 +1,6 @@
 import { cancel, fork, take, put, call, cancelled, takeEvery, select, } from 'redux-saga/effects'
 
 import { finishActivity } from './activitySlice'
-import { saveActivity } from '../../data/storage'
 import { saveActivity as saveToUrbit } from '../../data/urbitApiSaga'
 import { addActivity } from '../../screens/activitiesSlice'
 

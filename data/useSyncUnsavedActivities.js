@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import polyline from '@mapbox/polyline'
 
 import { pokeRequest, saveActivity } from './urbitApiSaga'
-import useAllActivities from '../hooks/useAllActivities'
+import { useUnsyncedActivities } from '../features/allActivities/useActivitiesStore'
 
 
 const toServerSegment = serverSegment => {
@@ -37,7 +37,7 @@ const toServerActivity = clientActivity => {
 
 export default function useSyncUnsavedActivities() {
   const dispatch = useDispatch()
-  const [ hasActivities, activityData ] = useAllActivities()
+  const unsyncedActivities = useUnsyncedActivities()
 
   if(!hasActivities) {
     return () => {}
