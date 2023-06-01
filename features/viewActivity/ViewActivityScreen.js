@@ -33,8 +33,7 @@ export default function ViewActivityScreen({ navigation }) {
   } = activity || {}
 
   function discardViewedActivity() {
-    resetRecorder()
-    dispatch(stopLocationTracking())
+    dispatch(resetRecorder())
     dispatch(stopTimer())
     clearActivity()
     navigation.navigate('RecordActivityScreen')
@@ -46,7 +45,7 @@ export default function ViewActivityScreen({ navigation }) {
     console.log('Saving completed activity', completedActivity)
     addUnsyncedActivity(completedActivity)
     syncActivity(completedActivity)
-    resetRecorder()
+    dispatch(resetRecorder())
     dispatch(stopLocationTracking())
     dispatch(stopTimer())
     clearActivity()

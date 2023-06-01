@@ -32,6 +32,9 @@ const urbitStore: StateCreator<UrbitStore> = (set, get) => ({
         isConnected,
       })
     },
+    connectApi: connection => {
+      set({ api: configureApi(connection.ship, connection.shipUrl) })
+    },
     syncActivity: async (activity: CompletedActivity) => {
       const { isConnected, } = get()
       console.log({
@@ -64,7 +67,7 @@ export const urbitConnectionStore = createStore(persist(urbitStore, {
   version: 1,
   storage: createJSONStorage(() => AsyncStorage),
   partialize: state => {
-    const { actions, isConnected, ...rest } = state
+    const { actions, isConnected, api, ...rest } = state
     return { ...rest }
   },
   onRehydrateStorage: state => {
@@ -76,6 +79,7 @@ export const urbitConnectionStore = createStore(persist(urbitStore, {
       if(state.connection) {
         initializeApi(state.connection)
         publish(state.connection)
+        state.actions.connectApi(state.connection)
       }
       console.log('rehydrated', state)
     }

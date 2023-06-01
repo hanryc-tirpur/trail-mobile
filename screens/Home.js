@@ -25,11 +25,15 @@ export default function HomeScreen() {
 
   useEffect(() => {
     async function getIt() {
-      const acts = await scry({
-        app: 'trail',
-        path: '/activities/all',
-      })
-      console.log('from server', acts)
+      try {
+        const acts = await scry({
+          app: 'trail',
+          path: '/activities/all',
+        })
+        console.log('from server', acts)
+      } catch (ex) {
+        console.log('Could not fetch latest activities', ex)
+      }
     }
     if(isConnected) {
       getIt()

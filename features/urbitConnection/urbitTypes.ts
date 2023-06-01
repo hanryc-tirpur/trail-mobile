@@ -14,6 +14,7 @@ export interface UrbitStore {
   api?: Urbit;
   actions: {
     connect: (connection: ShipConnection) => void,
+    connectApi: (connection: ShipConnection) => void,
     setConnectionStatus: (isConnected: boolean) => void,
   }
 }

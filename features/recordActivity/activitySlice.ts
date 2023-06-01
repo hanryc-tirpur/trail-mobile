@@ -68,10 +68,7 @@ export const activitySlice = createSlice({
   initialState: createInitialState(),
   reducers: {
     resetRecorder: (state) => {
-      return {
-        ... state,
-        ... createInitialState(),
-      }
+      return createInitialState()
     },
     finishActivity: (state) => {
       state.isComplete = true
