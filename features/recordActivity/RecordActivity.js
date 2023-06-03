@@ -172,7 +172,7 @@ export default function RecordActivity({ navigation }) {
 
 
 const buttonStyle = {
-  borderColor: '#228b22',
+  borderColor: '#158445',
   borderRadius: 20,
   borderWidth: 2,
   marginLeft: 10,
@@ -184,7 +184,7 @@ const actionButton = {
 }
 const secondaryButton = {
   ... buttonStyle,
-  backgroundColor: "#228b22",
+  backgroundColor: "#158445",
 }
 const buttonTextStyle = {
   fontSize: 32,
@@ -255,7 +255,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     ... buttonTextStyle,
-    color: '#228b22',
+    color: '#158445',
   },
   map: {
     height: '100%',

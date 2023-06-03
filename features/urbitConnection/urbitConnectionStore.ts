@@ -27,6 +27,13 @@ const urbitStore: StateCreator<UrbitStore> = (set, get) => ({
         api
       })
     },
+    disconnect: () => {
+      set({
+        isConnected: false,
+        connection: undefined,
+        api: undefined,
+      })
+    },
     setConnectionStatus: isConnected => {
       set({
         isConnected,

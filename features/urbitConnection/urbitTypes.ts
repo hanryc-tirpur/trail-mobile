@@ -1,4 +1,5 @@
 import Urbit from '@uqbar/react-native-api'
+import { CompletedActivity } from '../allActivities/activityTypes';
 
 
 declare global {
@@ -15,7 +16,9 @@ export interface UrbitStore {
   actions: {
     connect: (connection: ShipConnection) => void,
     connectApi: (connection: ShipConnection) => void,
+    disconnect: () => void,
     setConnectionStatus: (isConnected: boolean) => void,
+    syncActivity: (activity: CompletedActivity) => Promise<void>,
   }
 }
 

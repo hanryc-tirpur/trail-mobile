@@ -1,6 +1,7 @@
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
+import DisconnectUrbit from './DisconnectUrbit'
 import SettingsScreen from './Settings'
 import UnitSettings from './UnitSettings'
 import UrbitSettings from './UrbitSettings'
@@ -29,6 +30,12 @@ export default function SettingsNavigator() {
         component={UnitSettings}
         title="Units"
         options={{ headerTitle: 'Units' }}
+      />
+      <Stack.Screen
+        name="DisconnectUrbit"
+        component={DisconnectUrbit}
+        title="Disconnect"
+        options={{ headerTitle: 'Disconnect' }}
       />
     </Stack.Navigator>
   )

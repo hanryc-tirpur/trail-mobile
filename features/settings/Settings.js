@@ -16,31 +16,40 @@ const styles = StyleSheet.create({
 });
 
 export default function SettingsListScreen({ navigation }) {
-  const exportActivities = useExportActivities()
   
   return (
     <ScrollView contentContainerStyle={styles.stage}>
       <TableView>
-        <UrbitSettingsActivator navigation={navigation} />
+        <Section header="URBIT">
+          <UrbitSettingsActivator navigation={navigation} />
+        </Section>
 
         <Section header="APP">
           <UnitSettingsActivator navigation={navigation} />
         </Section>
 
-        <Section header="DATA">
-          <View>
-            <Text>
-              Export your activities
-            </Text>
-            <TouchableOpacity
-              onPress={exportActivities}
-            >
-              <Text>Export</Text>
-            </TouchableOpacity>
-          </View>
-        </Section>
+
       </TableView>
     </ScrollView>
+  )
+}
+
+function ExportActivitiesSetting() {
+  const exportActivities = useExportActivities()
+
+  return (
+    <Section header="DATA">
+      <View>
+        <Text>
+          Export your activities
+        </Text>
+        <TouchableOpacity
+          onPress={exportActivities}
+        >
+          <Text>Export</Text>
+        </TouchableOpacity>
+      </View>
+    </Section>
   )
 }
 

@@ -32,7 +32,7 @@ export default function HomeScreen() {
         })
         console.log('from server', acts)
       } catch (ex) {
-        console.log('Could not fetch latest activities', ex)
+        console.log(`Could not fetch latest activities, got status ${ex.status}`)
       }
     }
     if(isConnected) {

@@ -26,8 +26,8 @@ export default function useUrbitInstalledStatus() {
 
         await urbitApi.scry({ app: 'trail', path: '/activities/all'})
         setInstalledStatus(InstalledStatus.Installed)
-      } catch (ex) {
-        console.log('Could not connect to trail on your Urbit', ex)
+      } catch (ex: any) {
+        console.log(`Could not connect to trail on your Urbit, got status ${ex.status}`)
         setInstalledStatus(InstalledStatus.NotInstalled)
       }
     }
@@ -40,8 +40,8 @@ export default function useUrbitInstalledStatus() {
 
       await urbitApi.scry({ app: 'trail', path: '/activities/all'})
       setInstalledStatus(InstalledStatus.Installed)
-    } catch (ex) {
-      console.log('Could not connect to trail on your Urbit', ex)
+    } catch (ex: any) {
+      console.log(`Could not connect to trail on your Urbit, got status ${ex.status}`)
     }
   }, installedStatus === InstalledStatus.Installing ? 5000 : null)
 
