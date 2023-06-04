@@ -7,6 +7,7 @@ import useNetworkState from '../../util/useNetworkState'
 import useUrbitInstalledStatus, { InstalledStatus } from '../urbitConnection/useUrbitInstalledStatus'
 
 import ConnectedUrbit from './ConnectedUrbit'
+import ConnectUrbit from './ConnectUrbit'
 import { DisconnectUrbitActivator } from './DisconnectUrbit'
 
 export default function UrbitSettingsChooser() {
@@ -14,7 +15,7 @@ export default function UrbitSettingsChooser() {
 
   return isConnected
     ? (<UrbitSettings />)
-    : (<LoginScreen />)
+    : (<ConnectUrbit />)
 }
 
 
