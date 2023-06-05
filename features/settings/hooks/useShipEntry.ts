@@ -16,7 +16,6 @@ export default function useShipEntry() {
     selectedProtocol: protocol,
     shipUrl,
     urlInputRef,
-    urlProblem: null,
 
     setSelectedProtocol() {
       setProtocol(deselectedProtocol)

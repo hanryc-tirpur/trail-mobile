@@ -14,18 +14,36 @@ import useColors from "../../external/pongo/screens/../hooks/useColors";
 import useKeyboard from "../../external/pongo/screens/../hooks/useKeyboard";
 import useDimensions from "../../external/pongo/screens/../hooks/useDimensions";
 import { useUrbitActions } from "../../external/pongo/screens/../../../hooks/useUrbitStore";
-import { useConnectionProcessActions, useConnectionProcessUrl } from "./hooks/useConnectionProcess";
+import { useConnectionProcessActions, useConnectionProcessConnection, useConnectionProcessUrl } from "./hooks/useConnectionProcess";
 import useShipEntry from "./hooks/useShipEntry";
+import useAccessCodeEntry from "./hooks/useAccessCodeEntry";
+
 
 const SHIP_COOKIE_REGEX = /(~)[a-z\-]+?(\=)/;
 const getShipFromCookie = (cookie) => cookie.match(SHIP_COOKIE_REGEX)[0].slice(0, -1);
 
 export default function ConnectUrbit() {
-  const { hasAcceptedUrl } = useConnectionProcessUrl()
+  const { connect } = useUrbitActions()
+  const {
+    acceptedUrl,
+    authCookie,
+    isConnected,
+    ship,
+  } = useConnectionProcessConnection()
+
+  useEffect(() => {
+    if(isConnected) {
+      connect({
+        authCookie,
+        shipUrl: acceptedUrl,
+        ship,
+      })
+    }
+  }, [isConnected])
 
   return (
     <KeyboardAvoidingView behavior={keyboardAvoidBehavior} style={styles.shipInputView} keyboardVerticalOffset={keyboardOffset}>
-      { hasAcceptedUrl
+      { acceptedUrl !== null
       ? (<LoginToShip />)
       : (<EnterShipUrl />)
       }
@@ -35,12 +53,59 @@ export default function ConnectUrbit() {
 
 function LoginToShip() {
   const {
+    accessCode,
+    setAccessCode,
+    setShowPassword,
+    showPassword,
+  } = useAccessCodeEntry()
+  const {
     acceptedUrl,
+    loginProblem,
+    ship,
   } = useConnectionProcessUrl()
+  const {
+    attemptLogin,
+    removeUrl,
+  } = useConnectionProcessActions()
 
-  return (<View>
-    <Text>{acceptedUrl}</Text>
-  </View>)
+  return (
+    <>
+      <Text style={styles.label}>
+        Please enter your Access Key:
+      </Text>
+      <TextInput
+        style={styles.input}
+        value={ship}
+        placeholder="sampel-palnet"
+        editable={false}
+      />
+      <View style={{ position: 'relative' }}>
+        <TextInput
+          style={styles.input}
+          onChangeText={setAccessCode}
+          value={accessCode}
+          placeholder="sampel-ticlyt-migfun-falmel"
+          maxLength={27}
+          secureTextEntry={!showPassword}
+          keyboardType={showPassword ? 'default' : "default"}
+          autoComplete='off'
+          autoCapitalize="none"
+          autoFocus
+          textContentType="password"
+        />
+        <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.showPassword}>
+          <Text style={styles.showPasswordText}>{showPassword ? 'Hide' : 'Show'}</Text>
+        </TouchableOpacity>
+      </View>
+      {loginProblem && (
+        <Text style={{ color: "red" }}>
+          {loginProblem}
+        </Text>
+      )}
+      <Button style={styles.topMargin16} title="Continue" onPress={() => attemptLogin(accessCode)} />
+      <Button style={styles.topMargin16} title="Log in with a different ID" onPress={removeUrl} />
+    </>
+  )
 }
 
 
@@ -384,14 +449,14 @@ function EnterShipUrl() {
     setShipUrl,
     shipUrl,
     urlInputRef,
-    urlProblem,
   } = useShipEntry()
-  const { acceptUrl } = useConnectionProcessActions()
+  const { validateUrl } = useConnectionProcessActions()
+  const { isValidatingUrl, urlProblem } = useConnectionProcessUrl()
 
   return (
     <View>
       <Text style={styles.label}>
-        Enter the url to your urbit ship:
+        Enter the url to your urbit ship: {isValidatingUrl && 'LOADING'}
       </Text>
       {/* TODO: put a selector here for https/http that prepopulates the form and focuses */}
       <View>
@@ -416,7 +481,7 @@ function EnterShipUrl() {
           </Text>
         )}
       </View>
-      <Button style={styles.topMargin16} title="Continue" onPress={() => acceptUrl(shipUrl)} />
+      <Button style={styles.topMargin16} title="Continue" onPress={() => validateUrl(shipUrl)} />
     </View>
   )
 }
@@ -456,6 +521,17 @@ const styles = StyleSheet.create({
     padding: 20,
     height: '100%',
   },
+  showPassword: {
+    padding: 4,
+    position: 'absolute',
+    right: 8,
+    top: 18,
+    color: 'gray',
+  },
+  showPasswordText: {
+    color: 'black',
+  },
+  topMargin16: { marginTop: 16 },
 })
 
 
