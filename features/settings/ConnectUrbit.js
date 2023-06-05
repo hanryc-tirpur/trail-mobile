@@ -23,13 +23,14 @@ const SHIP_COOKIE_REGEX = /(~)[a-z\-]+?(\=)/;
 const getShipFromCookie = (cookie) => cookie.match(SHIP_COOKIE_REGEX)[0].slice(0, -1);
 
 export default function ConnectUrbit() {
-  const { connect } = useUrbitActions()
+  const { completeConnectionProcess } = useConnectionProcessActions()
   const {
     acceptedUrl,
     authCookie,
     isConnected,
     ship,
   } = useConnectionProcessConnection()
+  const { connect } = useUrbitActions()
 
   useEffect(() => {
     if(isConnected) {
@@ -38,6 +39,7 @@ export default function ConnectUrbit() {
         shipUrl: acceptedUrl,
         ship,
       })
+      completeConnectionProcess()
     }
   }, [isConnected])
 

@@ -13,11 +13,12 @@ interface ConnectionProcessStore {
   actions: {
     acceptUrl: (url: string) => void,
     attemptLogin: (url: string) => Promise<void>,
+    completeConnectionProcess: () => void,
     validateUrl: (url: string) => Promise<void>,
   }
 }
 
-const connectionProcessStore: StateCreator<ConnectionProcessStore> = (set, get) => ({
+const initialState = {
   acceptedUrl: null,
   authCookie: null,
   isConnected: false,
@@ -26,6 +27,10 @@ const connectionProcessStore: StateCreator<ConnectionProcessStore> = (set, get) 
   loginProblem: null,
   ship: null,
   urlProblem: null,
+}
+
+const connectionProcessStore: StateCreator<ConnectionProcessStore> = (set, get) => ({
+  ... initialState,
   actions: {
     acceptUrl(url) {
       set({
@@ -79,6 +84,9 @@ const connectionProcessStore: StateCreator<ConnectionProcessStore> = (set, get) 
           urlProblem: 'Please ensure your ship is accessible and try again.',
         })
       }
+    },
+    completeConnectionProcess() {
+      set(initialState)
     },
     removeUrl() {
       set({
