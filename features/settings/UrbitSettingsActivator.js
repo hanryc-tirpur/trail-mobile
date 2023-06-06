@@ -6,7 +6,7 @@ import { useUrbitConnection } from '../../hooks/useUrbitStore'
 import ConnectedUrbit from './ConnectedUrbit'
 
 
-const navigateToUrbitSettings = navigation => navigation.navigate('Settings', {
+export const navigateToUrbitSettings = navigation => navigation.navigate('Settings', {
   screen: 'ConnectYourUrbit'
 })
 
