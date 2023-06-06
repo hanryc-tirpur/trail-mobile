@@ -11,7 +11,7 @@ import { StatusBar } from 'expo-status-bar'
 import useColors from './external/pongo/hooks/useColors'
 import useColorScheme from './external/pongo/hooks/useColorScheme'
 
-import HomeScreen from './screens/Home'
+import HomeScreen from './features/dashboard/Home'
 import RecordActivityNavigator from './features/recordActivity/RecordActivityNavigator'
 import SettingsNavigator from './features/settings/SettingsNavigator'
 import useSplashScreen from './hooks/useSplashScreen'
