@@ -2,18 +2,32 @@ import React, { useEffect, useState, } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import MapView, { Polyline } from 'react-native-maps'
 import { useDispatch, useSelector } from 'react-redux'
+import {
+  MaterialCommunityIcons
+} from '@expo/vector-icons'
 
-import { changeDistanceUnits, finishActivity, pauseActivity, resumeActivity, startActivity } from './activitySlice'
+import { getZeroDistance } from '../../util/distanceCalculator'
+import { toDistanceText } from '../../formatting/distance'
+
+import { useDistanceUnit } from '../settings/hooks/useDistanceUnit'
+import { useViewActivityActions } from '../viewActivity/useVewActivityStore'
+
+import {
+  changeActivityType,
+  changeDistanceUnits,
+  finishActivity,
+  pauseActivity,
+  resumeActivity,
+  startActivity,
+} from './activitySlice'
 import { startLocationTracking } from './location-update-saga'
 import { startTimer } from './timer-update-saga'
-import { useDistanceUnit } from '../settings/hooks/useDistanceUnit'
-import { getZeroDistance } from '../../util/distanceCalculator'
-import { useViewActivityActions } from '../viewActivity/useVewActivityStore'
-import { toDistanceText } from '../../formatting/distance'
+import { ActivityType } from './recordingActivityTypes'
 
 
 export default function RecordActivity({ navigation }) {
   const dispatch = useDispatch()
+  const [activityName, setActivityName] = useState(ActivityType.Walk)
   const [isInitialized, setIsInitialized] = useState(false)
   const [distanceUnit] = useDistanceUnit()
   const { viewActivity } = useViewActivityActions()
@@ -28,6 +42,7 @@ export default function RecordActivity({ navigation }) {
     activity,
   } = activitySlice
   const {
+    activityType,
     completedSegments,
     currentSegment,
     startTime,
@@ -85,6 +100,10 @@ export default function RecordActivity({ navigation }) {
     startTime: now,
   }
 
+  const getActivityTypeStyle = buttonType => buttonType !== activityType
+    ? [styles.activityTypeSelector]
+    : [styles.activityTypeSelector, styles.selectedActivityType]
+
   return (<View style={styles.screen}>
     <View style={styles.container}>
       <View style={styles.mapContainer}>
@@ -105,6 +124,38 @@ export default function RecordActivity({ navigation }) {
       </View>
 
       <View style={styles.progressContainer}>
+        <View style={styles.activityTypeContainer}>
+          <TouchableOpacity
+            style={getActivityTypeStyle(ActivityType.Walk)}
+            onPress={() => dispatch(changeActivityType(ActivityType.Walk))}
+          >
+            <MaterialCommunityIcons
+              color={activityType === ActivityType.Walk ? '#fff' : '#158445'}
+              name="walk"
+              size={32}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={getActivityTypeStyle(ActivityType.Run)}
+            onPress={() => dispatch(changeActivityType(ActivityType.Run))}
+          >
+            <MaterialCommunityIcons
+              color={activityType === ActivityType.Run ? '#fff' : '#158445'}
+              name="run-fast"
+              size={32}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={getActivityTypeStyle(ActivityType.Ride)}
+            onPress={() => dispatch(changeActivityType(ActivityType.Ride))}
+          >
+            <MaterialCommunityIcons
+              color={activityType === ActivityType.Ride ? '#fff' : '#158445'}
+              name="bike-fast"
+              size={32}
+            />
+          </TouchableOpacity>
+        </View>
         <View style={styles.segmentContainer}>
           <Text style={styles.sectionHeader}>Segment</Text>
           <View style={styles.segmentNumbersContainer}>
@@ -279,6 +330,30 @@ const styles = StyleSheet.create({
   },
   multiButton: {
     flexDirection: 'row',
+  },
+
+  activityTypeContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: 10,
+    paddingTop: 10,
+    paddingLeft: 25,
+    paddingRight: 25,
+    paddingTop: 10,
+  },
+  activityTypeSelector: {
+    alignItems: 'center',
+    borderColor: '#158445',
+    borderRadius: 5,
+    borderWidth: 1,
+    flex: 1,
+    textAlign: 'center',
+    justifyContent: 'center',
+    padding: 10,
+  },
+  selectedActivityType: {
+    backgroundColor: '#158445',
+    color: '#fff',
   },
 })
 

@@ -11,7 +11,7 @@ interface ActivityState {
 }
 
 interface ActivityData {
-  activityType?: ActivityType,
+  activityType: ActivityType,
   name?: string,
   timeActive: number,
   timeElapsed: number,
@@ -53,6 +53,7 @@ function createInitialState(): ActivityState {
     isStarted: false,
 
     activity: {
+      activityType: ActivityType.Walk,
       completedSegments: [],
       currentSegment: null,
       timeActive: 0,
@@ -83,6 +84,10 @@ export const activitySlice = createSlice({
         ... seg,
         distance: convertDistance(seg.distance),
       }))
+    },
+    changeActivityType(state, { payload }) {
+      console.log(payload)
+      state.activity.activityType = payload
     },
     pauseActivity(state, { payload }) {
       if(state.isPaused) return state
@@ -171,6 +176,7 @@ export const activitySlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {
   finishActivity,
+  changeActivityType,
   changeDistanceUnits,
   pauseActivity,
   resetRecorder,
