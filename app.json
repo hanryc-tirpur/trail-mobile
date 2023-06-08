@@ -15,7 +15,7 @@
       "**/*"
     ],
     "ios": {
-      "buildNumber": "28",
+      "buildNumber": "29",
       "supportsTablet": true,
       "bundleIdentifier": "com.hanryctirpur.trailmobile",
       "infoPlist": {
