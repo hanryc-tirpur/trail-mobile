@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 import { Distance, addDistances, computeDistance, convertDistance, getZeroDistance, } from '../../util/distanceCalculator'
 
-interface ActivityState {
+export interface ActivityState {
   isComplete: boolean,
   isPaused: boolean,
   isStarted: boolean,
@@ -12,7 +12,7 @@ interface ActivityState {
 
 interface ActivityData {
   activityType: ActivityType,
-  name?: string,
+  name: string,
   timeActive: number,
   timeElapsed: number,
   endTime?: number,
@@ -56,6 +56,7 @@ function createInitialState(): ActivityState {
       activityType: ActivityType.Walk,
       completedSegments: [],
       currentSegment: null,
+      name: 'An Activity',
       timeActive: 0,
       timeElapsed: 0,
       startTime: 0,
@@ -85,8 +86,10 @@ export const activitySlice = createSlice({
         distance: convertDistance(seg.distance),
       }))
     },
+    changeActivityName(state, { payload }) {
+      state.activity.name = payload
+    },
     changeActivityType(state, { payload }) {
-      console.log(payload)
       state.activity.activityType = payload
     },
     pauseActivity(state, { payload }) {
@@ -177,6 +180,7 @@ export const activitySlice = createSlice({
 export const {
   finishActivity,
   changeActivityType,
+  changeActivityName,
   changeDistanceUnits,
   pauseActivity,
   resetRecorder,

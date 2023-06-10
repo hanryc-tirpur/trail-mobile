@@ -23,11 +23,11 @@ import {
 import { startLocationTracking } from './location-update-saga'
 import { startTimer } from './timer-update-saga'
 import { ActivityType } from './recordingActivityTypes'
+import ActivityName from './ActivityName'
 
 
 export default function RecordActivity({ navigation }) {
   const dispatch = useDispatch()
-  const [activityName, setActivityName] = useState(ActivityType.Walk)
   const [isInitialized, setIsInitialized] = useState(false)
   const [distanceUnit] = useDistanceUnit()
   const { viewActivity } = useViewActivityActions()
@@ -50,6 +50,7 @@ export default function RecordActivity({ navigation }) {
     timeElapsed,
     totalDistance,
   } = activity
+
 
   useEffect(() => {
     dispatch(startLocationTracking())
@@ -124,6 +125,7 @@ export default function RecordActivity({ navigation }) {
       </View>
 
       <View style={styles.progressContainer}>
+        <ActivityName />
         <View style={styles.activityTypeContainer}>
           <TouchableOpacity
             style={getActivityTypeStyle(ActivityType.Walk)}
@@ -156,15 +158,15 @@ export default function RecordActivity({ navigation }) {
             />
           </TouchableOpacity>
         </View>
+
         <View style={styles.segmentContainer}>
-          <Text style={styles.sectionHeader}>Segment</Text>
           <View style={styles.segmentNumbersContainer}>
             <View style={{ flexGrow: 1 }}>
-              <Text style={styles.totalsLabel}>Distance</Text>
+              <Text style={styles.totalsLabel}>Segment Distance</Text>
               <Text style={styles.segmentNumbers}>{toDistanceText(effectiveSegment.distance)}</Text>
             </View>
             <View style={{ flexGrow: 1 }}>
-              <Text style={styles.totalsLabel}>Active Time</Text>
+              <Text style={styles.totalsLabel}>Segment Time</Text>
               <Text style={styles.segmentNumbers}>{formatTimespan(now - effectiveSegment.startTime)}</Text>
             </View>
           </View>
@@ -226,8 +228,8 @@ const buttonStyle = {
   borderColor: '#158445',
   borderRadius: 20,
   borderWidth: 2,
-  marginLeft: 10,
-  marginRight: 10,
+  marginLeft: 25,
+  marginRight: 25,
   padding: 10,
 }
 const actionButton = {
@@ -270,9 +272,8 @@ const styles = StyleSheet.create({
   },
   segmentContainer: {
     flex: 1,
-    marginTop: 10,
-    marginLeft: 10,
-    marginRight: 10,
+    marginLeft: 25,
+    marginRight: 25,
     width: '100%',
   },
   segmentNumbersContainer: {
@@ -293,12 +294,12 @@ const styles = StyleSheet.create({
   },
   actionButton: {
     ... actionButton,
-    flex: 7,
+    flex: 6,
     marginRight: 0,
   },
   secondaryButton: {
     ... secondaryButton,
-    flex: 3,
+    flex: 4,
   },
   secondaryButtonText: {
     ... buttonTextStyle,
@@ -325,9 +326,7 @@ const styles = StyleSheet.create({
     resizeMode: "contain"
   },
 
-  sectionHeader: {
-    fontSize: 32,
-  },
+
   multiButton: {
     flexDirection: 'row',
   },

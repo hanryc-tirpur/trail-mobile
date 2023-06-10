@@ -2,7 +2,7 @@
   "expo": {
     "name": "Trail",
     "slug": "trail-mobile",
-    "version": "0.0.1",
+    "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -15,7 +15,7 @@
       "**/*"
     ],
     "ios": {
-      "buildNumber": "29",
+      "buildNumber": "1",
       "supportsTablet": true,
       "bundleIdentifier": "com.hanryctirpur.trailmobile",
       "infoPlist": {
