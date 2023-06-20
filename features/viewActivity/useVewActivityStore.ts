@@ -1,11 +1,12 @@
 import { StateCreator, create } from 'zustand'
 import { shallow, } from 'zustand/shallow'
 
-import { InProgressActivity } from '../recordActivity/recordingActivityTypes'
+import { ActivityType, InProgressActivity } from '../recordActivity/recordingActivityTypes'
 
 interface ViewActivityStore {
   activity: InProgressActivity | null,
   actions: {
+    changeActivityType: (activityType: ActivityType) => void,
     clearActivity: () => void,
     viewActivity: (activity: InProgressActivity) => void,
   }
@@ -15,6 +16,16 @@ interface ViewActivityStore {
 const viewActivityStore: StateCreator<ViewActivityStore> = (set, get) => ({
   activity: null,
   actions: {
+    changeActivityType(activityType) {
+      const { activity } = get()
+      console.log('setting activity type', activityType)
+      activity !== null && set({
+        activity: {
+          ... activity,
+          activityType,
+        }
+      })
+    },
     clearActivity() {
       set({ activity: null })
     },

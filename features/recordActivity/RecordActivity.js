@@ -1,10 +1,8 @@
-import React, { useEffect, useState, } from 'react'
+import React, { useCallback, useEffect, useState, } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import MapView, { Polyline } from 'react-native-maps'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  MaterialCommunityIcons
-} from '@expo/vector-icons'
+
 
 import { getZeroDistance } from '../../util/distanceCalculator'
 import { toDistanceText } from '../../formatting/distance'
@@ -22,8 +20,9 @@ import {
 } from './activitySlice'
 import { startLocationTracking } from './location-update-saga'
 import { startTimer } from './timer-update-saga'
-import { ActivityType } from './recordingActivityTypes'
+
 import ActivityName from './ActivityName'
+import ActivityTypeSelector from './ActivityTypeSelector'
 
 
 export default function RecordActivity({ navigation }) {
@@ -65,6 +64,11 @@ export default function RecordActivity({ navigation }) {
     }
   }, [isComplete])
 
+  const doChangeActivity = useCallback(changeToType => {
+    if(changeToType === activityType) return
+    dispatch(changeActivityType(changeToType)) 
+  }, [activityType])
+
   const finishActivityTracking = () => {
     dispatch(pauseActivity({
       pauseTime: Date.now(),
@@ -101,9 +105,6 @@ export default function RecordActivity({ navigation }) {
     startTime: now,
   }
 
-  const getActivityTypeStyle = buttonType => buttonType !== activityType
-    ? [styles.activityTypeSelector]
-    : [styles.activityTypeSelector, styles.selectedActivityType]
 
   return (<View style={styles.screen}>
     <View style={styles.container}>
@@ -126,38 +127,8 @@ export default function RecordActivity({ navigation }) {
 
       <View style={styles.progressContainer}>
         <ActivityName />
-        <View style={styles.activityTypeContainer}>
-          <TouchableOpacity
-            style={getActivityTypeStyle(ActivityType.Walk)}
-            onPress={() => dispatch(changeActivityType(ActivityType.Walk))}
-          >
-            <MaterialCommunityIcons
-              color={activityType === ActivityType.Walk ? '#fff' : '#158445'}
-              name="walk"
-              size={32}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={getActivityTypeStyle(ActivityType.Run)}
-            onPress={() => dispatch(changeActivityType(ActivityType.Run))}
-          >
-            <MaterialCommunityIcons
-              color={activityType === ActivityType.Run ? '#fff' : '#158445'}
-              name="run-fast"
-              size={32}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={getActivityTypeStyle(ActivityType.Ride)}
-            onPress={() => dispatch(changeActivityType(ActivityType.Ride))}
-          >
-            <MaterialCommunityIcons
-              color={activityType === ActivityType.Ride ? '#fff' : '#158445'}
-              name="bike-fast"
-              size={32}
-            />
-          </TouchableOpacity>
-        </View>
+        <ActivityTypeSelector activityType={activityType} {... { doChangeActivity }} />
+
 
         <View style={styles.segmentContainer}>
           <View style={styles.segmentNumbersContainer}>

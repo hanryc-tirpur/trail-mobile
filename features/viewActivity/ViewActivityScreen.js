@@ -1,9 +1,10 @@
+import { useCallback } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import MapView, { Polyline } from 'react-native-maps'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { useActivitiesActions } from '../allActivities/useActivitiesStore'
-import { resetRecorder } from '../recordActivity/activitySlice'
+import { changeActivityType as sliceChangeActivityType, resetRecorder } from '../recordActivity/activitySlice'
 import { stopLocationTracking } from '../recordActivity/location-update-saga'
 import { stopTimer } from '../recordActivity/timer-update-saga'
 import { toCompletedActivity } from '../../util/activityConverter'
@@ -12,18 +13,21 @@ import { useViewActivity, useViewActivityActions } from './useVewActivityStore'
 import useRedirectOnNoActivity from './useRedirectOnNoActivity'
 import { assertIsNotNull } from '../../util/assertions'
 import { useUrbitActions } from '../../hooks/useUrbitStore'
+import ActivityName from '../recordActivity/ActivityName'
+import ActivityTypeSelector from '../recordActivity/ActivityTypeSelector'
 
 
 export default function ViewActivityScreen({ navigation }) {
   const dispatch = useDispatch()
   const { addUnsyncedActivity } = useActivitiesActions()
-  const { clearActivity } = useViewActivityActions()
+  const { clearActivity, changeActivityType, } = useViewActivityActions()
   const { activity } = useViewActivity()
   const { syncActivity } = useUrbitActions()
 
   if(activity === null) return null
 
   const {
+    activityType,
     completedSegments,
     currentSegment,
     startTime,
@@ -38,6 +42,12 @@ export default function ViewActivityScreen({ navigation }) {
     clearActivity()
     navigation.navigate('RecordActivityScreen')
   }
+
+  const doChangeActivity = useCallback(changeToType => {
+    if(changeToType === activityType) return
+    changeActivityType(changeToType)
+    dispatch(sliceChangeActivityType(changeToType))
+  }, [activityType])
 
   function saveViewedActivity() {
     assertIsNotNull(activity)
@@ -70,6 +80,10 @@ export default function ViewActivityScreen({ navigation }) {
           ))}
         </MapView>
       </View>
+    </View>
+    <View style={styles.progressContainer}>
+      <ActivityName />
+      <ActivityTypeSelector {... { activityType, doChangeActivity }} />
     </View>
     <View style={styles.controlsContainer}>
       <View style={styles.multiButton}>
