@@ -14,8 +14,8 @@ export default function AllActivitiesNavigator() {
       <Stack.Screen
         name="AllActivitiesDisplay"
         component={AllActivities}
-        title="All Activities"
-        options={{ headerTitle: 'All Activities' }}
+        title="Activities"
+        options={{ headerTitle: 'Activities' }}
       />
     </Stack.Navigator>
   )

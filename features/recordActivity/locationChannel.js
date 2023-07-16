@@ -1,11 +1,16 @@
 import { eventChannel, } from 'redux-saga'
-import { Accuracy, startLocationUpdatesAsync, stopLocationUpdatesAsync, watchPositionAsync } from 'expo-location'
+import { Accuracy, ActivityType, startLocationUpdatesAsync, stopLocationUpdatesAsync, watchPositionAsync } from 'expo-location'
 import * as TaskManager from 'expo-task-manager'
 
 const LOCATION_TASK_NAME = 'track-background-location'
 const locationArgs = {
   accuracy: Accuracy.Highest,
+  activityType: ActivityType.Fitness,
   distanceInterval: 5,
+  foregroundService: {
+    notificationBody: 'Gets activity location',
+    notificationTitle: 'Gets activity location',
+  }
 }
 let emitLocation
 let cleanUpForeground

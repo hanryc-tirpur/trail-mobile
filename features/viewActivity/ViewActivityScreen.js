@@ -15,6 +15,7 @@ import { assertIsNotNull } from '../../util/assertions'
 import { useUrbitActions } from '../../hooks/useUrbitStore'
 import ActivityName from '../recordActivity/ActivityName'
 import ActivityTypeSelector from '../recordActivity/ActivityTypeSelector'
+import { ActivityType } from '../recordActivity/recordingActivityTypes'
 
 
 export default function ViewActivityScreen({ navigation }) {
@@ -24,8 +25,6 @@ export default function ViewActivityScreen({ navigation }) {
   const { activity } = useViewActivity()
   const { syncActivity } = useUrbitActions()
 
-  if(activity === null) return null
-
   const {
     activityType,
     completedSegments,
@@ -34,7 +33,7 @@ export default function ViewActivityScreen({ navigation }) {
     timeActive,
     timeElapsed,
     totalDistance,
-  } = activity || {}
+  } = activity || { activityType: ActivityType.Walk }
 
   function discardViewedActivity() {
     dispatch(resetRecorder())
@@ -63,8 +62,11 @@ export default function ViewActivityScreen({ navigation }) {
   }
 
   // @ts-ignore
-  const { mapSegments, region } = getMapInfoForInProgressActivity(activity)
-  return (<View style={styles.screen}>
+  const { mapSegments, region } = (activity && getMapInfoForInProgressActivity(activity)) || {
+    mapSegments: [],
+    region: null,
+  }
+  return (activity && <View style={styles.screen}>
     <View style={styles.container}>
       <View style={styles.mapContainer}>
         <MapView
