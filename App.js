@@ -18,6 +18,7 @@ import useSplashScreen from './hooks/useSplashScreen'
 import { useUrbitApi } from './hooks/useUrbitStore'
 
 import { verifyConnection } from './features/urbitConnection/urbitConnection'
+import AllActivitiesNavigator from './features/allActivities/AllActivitiesNavigator'
 
 
 const Tab = createBottomTabNavigator()
@@ -41,13 +42,13 @@ export default function App() {
                 let iconName;
     
                 if (route.name === 'Home') {
-                  iconName = focused
-                    ? 'home'
-                    : 'home-outline';
+                  iconName = focused ? 'home' : 'home-outline'
+                } else if (route.name === 'Activities') {
+                  iconName = focused ? 'list' : 'list'
                 } else if (route.name === 'Record') {
-                  iconName = focused ? 'ios-walk-sharp' : 'ios-walk-outline';
+                  iconName = focused ? 'ios-walk-sharp' : 'ios-walk-outline'
                 } else if (route.name === 'Settings') {
-                  iconName = focused ? 'ios-settings-sharp' : 'ios-settings-outline';
+                  iconName = focused ? 'ios-settings-sharp' : 'ios-settings-outline'
                 }
     
                 // You can return any component that you like here!
@@ -60,6 +61,7 @@ export default function App() {
               <Tab.Screen name="Home" component={HomeScreen} screenOptions={{
                 height: '100%',
               }} />
+              <Tab.Screen name="Activities" component={AllActivitiesNavigator} options={{ headerShown: false, }} />
               <Tab.Screen name="Record" component={RecordActivityNavigator} options={{ headerShown: false, }} />
               <Tab.Screen name="Settings" component={SettingsNavigator} options={{ headerShown: false, }} />
             </Tab.Navigator>
