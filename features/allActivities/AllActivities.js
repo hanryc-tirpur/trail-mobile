@@ -7,18 +7,20 @@ import { formatTimespan, toActivityDate } from '../../util/formatting'
 import { toDistanceText } from '../../formatting/distance'
 
 
-export const navigateToActivity = navigation => navigation.navigate('Settings', {
-  screen: 'ConnectYourUrbit'
+export const createNavigateToActivity = navigation => id => navigation.navigate('Activities', {
+  screen: 'CompletedActivity',
+  params: { id },
 })
 
 function ActivitySummary(activity) {
   const navigation = useNavigation()
+  const navigateToActivity = createNavigateToActivity(navigation)
 
   return (
     <Cell
       cellStyle="Basic"
       accessory="DisclosureIndicator"
-      onPress={() => navigateToActivity(navigation)}
+      onPress={() => navigateToActivity(activity.id)}
       cellContentView={(<ActivitySummaryContent activity={activity} />)}
     />
   )
